@@ -1,7 +1,10 @@
 package com.bic.notificator;
 
+import android.content.ContentResolver;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.Telephony;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -21,38 +24,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
     private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        TextView view = new TextView(this);
-        Uri uriSMSURI = Uri.parse("content://sms/inbox");
-        Cursor cur = getContentResolver().query(uriSMSURI, null, null, null,null);
-        String sms = "";
-        while (cur.moveToNext()) {
-            sms += "From :" + cur.getString(2) + " : " + cur.getString(11)+"\n";
-        }
-        view.setText(sms);
-        setContentView(view);
-
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -75,19 +58,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -95,10 +72,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -121,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
             return 2;
         }
 
@@ -137,6 +109,43 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void readsms(View v) {
+        getAllSms(getBaseContext());
+    }
+
+    public void getAllSms(Context context) {
+        ContentResolver cr = context.getContentResolver();
+        Cursor c = cr.query(Telephony.Sms.CONTENT_URI, null, null, null, null);
+        int totalSMS = 0;
+        if (c != null) {
+            totalSMS = c.getCount();
+            if (c.moveToFirst()) {
+                for (int j = 0; j < totalSMS; j++) {
+                    String smsDate = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.DATE));
+                    String number = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS));
+                    String body = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.BODY));
+                    Date dateFormat = new Date(Long.valueOf(smsDate));
+                    String type;
+                    switch (Integer.parseInt(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.TYPE)))) {
+                        case Telephony.Sms.MESSAGE_TYPE_INBOX:
+                            type = "inbox";
+                            break;
+                        case Telephony.Sms.MESSAGE_TYPE_SENT:
+                            type = "sent";
+                            break;
+                        case Telephony.Sms.MESSAGE_TYPE_OUTBOX:
+                            type = "outbox";
+                            break;
+                        default:
+                            break;
+                    }
+                    c.moveToNext();
+                }
+            }
+        } else {
+            Toast.makeText(this, "No message to show!", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }
 

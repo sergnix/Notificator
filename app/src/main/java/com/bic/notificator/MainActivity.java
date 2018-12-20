@@ -1,7 +1,9 @@
 package com.bic.notificator;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.Telephony;
@@ -9,6 +11,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -49,12 +53,25 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-
+        getAllSms(getBaseContext());
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+        checkAndRequestPermissions();
+
 
     }
 
+    private boolean checkAndRequestPermissions()
+    {
+        int sms = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS);
+
+        if (sms != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS}, 1);
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -107,10 +124,6 @@ public class MainActivity extends AppCompatActivity {
             }
             return null;
         }
-    }
-
-    public void readsms(View v) {
-        getAllSms(getBaseContext());
     }
 
     public void getAllSms(Context context) {

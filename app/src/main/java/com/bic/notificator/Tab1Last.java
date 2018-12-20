@@ -21,8 +21,6 @@ public class Tab1Last extends Fragment {
         View rootView = inflater.inflate(R.layout.tab1last, container, false);
         return rootView;
 
-
-
     }
 
 }

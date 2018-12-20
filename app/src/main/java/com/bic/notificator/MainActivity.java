@@ -27,15 +27,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    ListView lvMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+
+        lvMain = (ListView) findViewById(R.id.listsms);
 
         // ---------------Copying from Google
         // Here, thisActivity is the current activity
@@ -78,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         }
         // ---------------Copying from Google
         getAllSms(getApplicationContext());
+
 
     }
 
@@ -135,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getAllSms(Context context) {
+        List<SMSData> smsList = new ArrayList<SMSData>();
         ContentResolver cr = context.getContentResolver();
         Cursor c = cr.query(Telephony.Sms.CONTENT_URI, null, null, null, null);
         int totalSMS = 0;
@@ -142,11 +151,13 @@ public class MainActivity extends AppCompatActivity {
             totalSMS = c.getCount();
             if (c.moveToFirst()) {
                 for (int j = 0; j < totalSMS; j++) {
-                    String smsDate = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.DATE));
-                    String number = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS));
-                    String body = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.BODY));
-                    Date dateFormat = new Date(Long.valueOf(smsDate));
-                    String type;
+                    SMSData sms = new SMSData();
+//                    String smsDate = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.DATE));
+                    sms.setNumber(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS)));
+                    sms.setBody(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.BODY)));
+                    smsList.add(sms);
+//                    Date dateFormat = new Date(Long.valueOf(smsDate));
+/*                    String type;
                     switch (Integer.parseInt(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.TYPE)))) {
                         case Telephony.Sms.MESSAGE_TYPE_INBOX:
                             type = "inbox";
@@ -159,15 +170,17 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         default:
                             break;
-                    }
+                    }*/
                     c.moveToNext();
                 }
+                c.close();
             }
+
         } else {
             Toast.makeText(this, "No message to show!", Toast.LENGTH_SHORT).show();
         }
+//        setListAdapter(new SMSListAdapter(this, smsList));
     }
-
     // ---------------Copying from Google
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
@@ -183,4 +196,5 @@ public class MainActivity extends AppCompatActivity {
             };
     // ---------------Copying from Google
 }
+
 

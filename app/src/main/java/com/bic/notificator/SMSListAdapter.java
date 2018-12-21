@@ -7,12 +7,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.bic.notificator.SMSData;
+
 import java.util.List;
 
 public class SMSListAdapter extends ArrayAdapter<SMSData> {
     private final Context context;
     private final List<SMSData> smsList;
 
+    //Спросить как, что это такое реализация метода внутри класса
     public SMSListAdapter(Context context, List<SMSData> smsList) {
         super(context, R.layout.activity_main, smsList);
         this.context = context;
@@ -30,4 +33,5 @@ public class SMSListAdapter extends ArrayAdapter<SMSData> {
 
         return rowView;
     }
+    
 }

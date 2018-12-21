@@ -16,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -35,6 +36,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import com.bic.notificator.SMSData;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -179,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "No message to show!", Toast.LENGTH_SHORT).show();
         }
-//        setListAdapter(new SMSListAdapter(this, smsList));
+        setListAdapter(new SMSListAdapter(this, smsList));
     }
     // ---------------Copying from Google
     @Override

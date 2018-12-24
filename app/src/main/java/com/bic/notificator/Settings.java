@@ -26,7 +26,7 @@ public class Settings extends AppCompatActivity {
                 sPref = getPreferences(MODE_PRIVATE);
                 SharedPreferences.Editor ed = sPref.edit();
 
-                sPref.putString();
+//                sPref.putString();
             }
         });
 

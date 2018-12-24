@@ -7,31 +7,37 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.bic.notificator.SMSData;
-
-import java.util.List;
+import java.util.ArrayList;
 
 public class SMSListAdapter extends ArrayAdapter<SMSData> {
-    private final Context context;
-    private final List<SMSData> smsList;
 
-    //Спросить как, что это такое реализация метода внутри класса
-    public SMSListAdapter(Context context, List<SMSData> smsList) {
-        super(context, R.layout.activity_main, smsList);
-        this.context = context;
-        this.smsList = smsList;
+    private LayoutInflater inflater;
+    private int resource;
+    private ArrayList<SMSData> data;
+
+    SMSListAdapter(Context context, int resource, ArrayList<SMSData> data) {
+        super(context, resource, data);
+        this.resource = resource;
+        this.data = data;
+        this.inflater = LayoutInflater.from(context);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = this.inflater.inflate(this.resource, parent, false);
 
-        View rowView = inflater.inflate(R.layout.activity_main, parent, false);
+        TextView title = (TextView) view.findViewById(R.id.title);
+        TextView phoneNumber = (TextView) view.findViewById(R.id.phone);
+//        TextView lont = (TextView) view.findViewById(R.id.lont);
+//        TextView lat = (TextView) view.findViewById(R.id.lat);
 
-        TextView senderNumber = (TextView) rowView.findViewById(R.id.textsms);
-        senderNumber.setText(smsList.get(position).getNumber());
+        SMSData msg = this.data.get(position);
 
-        return rowView;
+        title.setText(msg.getTitle());
+        phoneNumber.setText(msg.getPhone());
+//        lont.setText(String.valueOf(msg.getLont()));
+//        lat.setText(String.valueOf(msg.getLat()));
+
+        return view;
     }
-    
 }

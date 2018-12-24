@@ -5,12 +5,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.net.Uri;
 import android.provider.Telephony;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -25,25 +21,27 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import com.bic.notificator.SMSData;
 
 public class MainActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-    ListView lvMain;
+
+    ListView messageList;
+    ArrayAdapter<SMSData> adapter;
+
+    ArrayList<SMSData> listsms;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-
-        lvMain = (ListView) findViewById(R.id.listsms);
 
         // ---------------Copying from Google
         // Here, thisActivity is the current activity
@@ -87,8 +83,10 @@ public class MainActivity extends AppCompatActivity {
             // Permission has already been granted
         }
         // ---------------Copying from Google
-        getAllSms(getApplicationContext());
-
+        messageList = (ListView) findViewById(R.id.listsms);
+        listsms = getAllSms(getBaseContext());
+        adapter = new SMSListAdapter(this.getBaseContext(), R.layout.sms_list_item, listsms);
+        messageList.setAdapter(adapter);
 
     }
 
@@ -145,20 +143,35 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void getAllSms(Context context) {
-        List<SMSData> smsList = new ArrayList<SMSData>();
+    // ---------------Copying from Google
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        // If request is cancelled, the result arrays are empty.
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            // permission was granted, yay! Do the
+            // contacts-related task you need to do.
+        } else {
+            // permission denied, boo! Disable the
+            // functionality that depends on this permission.
+        }
+        return;
+    }
+
+    ;
+    // ---------------Copying from Google
+
+    public ArrayList<SMSData> getAllSms(Context context) {
+        ArrayList<SMSData> smsList;
+        smsList = new ArrayList<SMSData>();
         ContentResolver cr = context.getContentResolver();
-        Cursor c = cr.query(Telephony.Sms.CONTENT_URI, null, null, null, null);
         int totalSMS = 0;
+        Cursor c = cr.query(Telephony.Sms.CONTENT_URI, null, null, null, null);
         if (c != null) {
             totalSMS = c.getCount();
             if (c.moveToFirst()) {
                 for (int j = 0; j < totalSMS; j++) {
-                    SMSData sms = new SMSData();
 //                    String smsDate = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.DATE));
-                    sms.setNumber(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS)));
-                    sms.setBody(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.BODY)));
-                    smsList.add(sms);
+                    smsList.add(new SMSData(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS)), c.getString(c.getColumnIndexOrThrow(Telephony.Sms.BODY))));
 //                    Date dateFormat = new Date(Long.valueOf(smsDate));
 /*                    String type;
                     switch (Integer.parseInt(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.TYPE)))) {
@@ -182,22 +195,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "No message to show!", Toast.LENGTH_SHORT).show();
         }
-        setListAdapter(new SMSListAdapter(this, smsList));
+//        setListAdapter(new SMSListAdapter(this, smsList));
+        return smsList;
     }
-    // ---------------Copying from Google
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                }
-                return;
-            };
-    // ---------------Copying from Google
 }
 
 

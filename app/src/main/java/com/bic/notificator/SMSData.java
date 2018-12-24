@@ -1,22 +1,50 @@
 package com.bic.notificator;
 
+import java.util.ArrayList;
+
 public class SMSData {
-    private String number;
-    private String body;
 
-    public String getNumber() {
-        return number;
+    private String title;
+    private String phone;
+//    private double lont;
+//    private double lat;
+
+    public SMSData(String title, String phone) {
+        this.title = title;
+        this.phone = phone;
+//        this.lont = lont;
+//        this.lat = latt;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public String getTitle() {
+        return title;
     }
 
-    public String getBody() {
-        return body;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setBody(String body) {
-        this.body = body;
+//    public double getLont() {
+//        return lont;
+//    }
+//
+//    public double getLat() {
+//        return lat;
+//    }
+//
+//    public void setLont(double lont) {
+//        this.lont = lont;
+//    }
+//
+//    public void setLatt(double lat) {
+//        this.lat = lat;
+//    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

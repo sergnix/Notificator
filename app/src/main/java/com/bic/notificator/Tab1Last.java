@@ -20,7 +20,5 @@ public class Tab1Last extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab1last, container, false);
         return rootView;
-
     }
-
 }

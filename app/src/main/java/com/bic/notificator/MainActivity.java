@@ -37,10 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
 
-    ListView messageList;
-    ArrayAdapter<SMSData> adapter;
 
-    ArrayList<SMSData> listsms;
 
 
     @Override
@@ -83,10 +80,7 @@ public class MainActivity extends AppCompatActivity {
             // Permission has already been granted
         }
         // ---------------Copying from Google
-        messageList = (ListView) findViewById(R.id.listsms);
-        listsms = getAllSms(getBaseContext());
-        adapter = new SMSListAdapter(this.getBaseContext(), R.layout.sms_list_item, listsms);
-        messageList.setAdapter(adapter);
+
 
     }
 

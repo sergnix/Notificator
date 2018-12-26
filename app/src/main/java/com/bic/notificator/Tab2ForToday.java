@@ -62,5 +62,4 @@ public class Tab2ForToday extends Fragment {
         }
         return smsList;
     }
-
 }

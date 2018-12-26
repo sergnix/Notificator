@@ -1,6 +1,7 @@
 package com.bic.notificator;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.prefs.Preferences;
 
 public class Settings extends AppCompatActivity {
 
@@ -30,10 +32,10 @@ public class Settings extends AppCompatActivity {
         btnSave = (Button) findViewById(R.id.save_setting_number);
         ed = (EditText) findViewById(R.id.numberForParseSMS);
 
-        sPref = getPreferences(MODE_PRIVATE);
+        sPref = getSharedPreferences("numberparse", MODE_PRIVATE);
 
         if (sPref.contains("numberparse")) {
-            numberForParse = sPref.getString("numberparse","");
+            numberForParse = sPref.getString("numberparse", "");
             ed.setText(numberForParse);
         }
 
@@ -43,6 +45,8 @@ public class Settings extends AppCompatActivity {
                 SharedPreferences.Editor editor = sPref.edit();
                 editor.putString("numberparse", ed.getText().toString());
                 editor.apply();
+                Intent intention = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intention);
             }
         });
     }
@@ -50,11 +54,11 @@ public class Settings extends AppCompatActivity {
     public boolean checkNumber(String string, Context context) {
         sPref = context.getSharedPreferences("numberparse", MODE_PRIVATE);
         Map<String, ?> allPreferences = sPref.getAll();
-        if (sPref.contains(string)) {
+        System.out.println("debugg " + String.valueOf(allPreferences.toString()));
+        if (allPreferences.containsValue(string)) {
             return true;
         } else {
             return false;
         }
     }
-
 }

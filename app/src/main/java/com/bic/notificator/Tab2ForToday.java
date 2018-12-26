@@ -2,6 +2,7 @@ package com.bic.notificator;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.Telephony;
@@ -14,14 +15,16 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Tab2ForToday extends Fragment {
 
     ListView messageList;
     ArrayAdapter<SMSData> adapter;
     ArrayList<SMSData> listsms;
-
-
+    SharedPreferences sPref;
+    String numberForParse;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,27 +44,14 @@ public class Tab2ForToday extends Fragment {
         ContentResolver cr = context.getContentResolver();
         int totalSMS = 0;
         Cursor c = cr.query(Telephony.Sms.CONTENT_URI, null, null, null, null);
+        Settings settings = new Settings();
         if (c != null) {
             totalSMS = c.getCount();
             if (c.moveToFirst()) {
                 for (int j = 0; j < totalSMS; j++) {
-//                    String smsDate = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.DATE));
-                    smsList.add(new SMSData(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS)), c.getString(c.getColumnIndexOrThrow(Telephony.Sms.BODY))));
-//                    Date dateFormat = new Date(Long.valueOf(smsDate));
-/*                    String type;
-                    switch (Integer.parseInt(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.TYPE)))) {
-                        case Telephony.Sms.MESSAGE_TYPE_INBOX:
-                            type = "inbox";
-                            break;
-                        case Telephony.Sms.MESSAGE_TYPE_SENT:
-                            type = "sent";
-                            break;
-                        case Telephony.Sms.MESSAGE_TYPE_OUTBOX:
-                            type = "outbox";
-                            break;
-                        default:
-                            break;
-                    }*/
+                    if (settings.checkNumber(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS)), getContext())) {
+                        smsList.add(new SMSData(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS)), c.getString(c.getColumnIndexOrThrow(Telephony.Sms.BODY))));
+                    }
                     c.moveToNext();
                 }
                 c.close();
@@ -70,7 +60,6 @@ public class Tab2ForToday extends Fragment {
         } else {
             Toast.makeText(this.getContext(), "No message to show!", Toast.LENGTH_SHORT).show();
         }
-//        setListAdapter(new SMSListAdapter(this, smsList));
         return smsList;
     }
 

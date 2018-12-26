@@ -3,6 +3,7 @@ package com.bic.notificator;
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.provider.Telephony;
@@ -31,14 +32,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class MainActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +77,6 @@ public class MainActivity extends AppCompatActivity {
             // Permission has already been granted
         }
         // ---------------Copying from Google
-
-
     }
 
     @Override
@@ -94,7 +89,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            Intent intention = new Intent(this, Settings.class);
+            startActivity(intention);
             return true;
+        } else if (id == R.id.exit) {
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -150,8 +149,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return;
     }
-
-    ;
     // ---------------Copying from Google
 }
 

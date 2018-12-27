@@ -28,15 +28,20 @@ public class SMSListAdapter extends ArrayAdapter<SMSData> {
 
         TextView title = (TextView) view.findViewById(R.id.title);
         TextView phoneNumber = (TextView) view.findViewById(R.id.phone);
-//        TextView lont = (TextView) view.findViewById(R.id.lont);
-//        TextView lat = (TextView) view.findViewById(R.id.lat);
+        TextView number = (TextView) view.findViewById(R.id.number);
+        TextView lac = (TextView) view.findViewById(R.id.lac);
+        TextView cid = (TextView) view.findViewById(R.id.cid);
+        TextView mcc = (TextView) view.findViewById(R.id.mcc);
+        TextView mns = (TextView) view.findViewById(R.id.mns);
 
         SMSData msg = this.data.get(position);
 
-        title.setText(msg.getTitle());
-        phoneNumber.setText(msg.getPhone());
-//        lont.setText(String.valueOf(msg.getLont()));
-//        lat.setText(String.valueOf(msg.getLat()));
+        phoneNumber.setText("Телефонный номер: " + msg.getPhone());
+        number.setText(String.valueOf(position));
+        lac.setText(msg.getLac());
+        cid.setText(msg.getCid());
+        mcc.setText(msg.getMcc());
+        mns.setText(msg.getMns());
 
         return view;
     }

@@ -1,47 +1,87 @@
 package com.bic.notificator;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class SMSData {
 
-    private String title;
+    private String body;
     private String phone;
-//    private double lont;
-//    private double lat;
+    List<String> data;
+    private String Lac;
+    private String Cid;
+    private String Mcc;
+    private String Mns;
+    private String Address;
+    private String lont;
+    private String lat;
 
-    public SMSData(String title, String phone) {
-        this.title = title;
+    public SMSData(String body, String phone) {
+        this.body = body;
+        this.data = Arrays.asList(body.split("\\$"));
         this.phone = phone;
-//        this.lont = lont;
-//        this.lat = latt;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public String getPhone() {
         return phone;
     }
 
-//    public double getLont() {
-//        return lont;
-//    }
-//
-//    public double getLat() {
-//        return lat;
-//    }
-//
-//    public void setLont(double lont) {
-//        this.lont = lont;
-//    }
-//
-//    public void setLatt(double lat) {
-//        this.lat = lat;
-//    }
+    public String getCid() {
+        return data.get(6);
+    }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String getLac() {
+        return data.get(5);
+    }
+
+    public String getMcc() {
+        return data.get(3);
+    }
+
+    public String getMns() {
+        return data.get(4);
+    }
+
+    public String getAddress() {
+        return data.get(8);
+    }
+
+    public String getLat() {
+        return data.get(10);
+    }
+
+    public String getLont() {
+        return data.get(10);
+    }
+
+    public void setLont(String lont) {
+        this.lont = lont;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public void setLac(String lac) {
+        Lac = lac;
+    }
+
+    public void setCid(String cid) {
+        Cid = cid;
+    }
+
+    public void setMcc(String mcc) {
+        Mcc = mcc;
+    }
+
+    public void setMns(String mns) {
+        Mns = mns;
+    }
+
+    public void setAddress(String address) {
+        Address = address;
     }
 
     public void setPhone(String phone) {

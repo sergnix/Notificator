@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -50,13 +51,12 @@ public class Tab2ForToday extends Fragment {
             if (c.moveToFirst()) {
                 for (int j = 0; j < totalSMS; j++) {
                     if (settings.checkNumber(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS)), getContext())) {
-                        smsList.add(new SMSData(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS)), c.getString(c.getColumnIndexOrThrow(Telephony.Sms.BODY))));
+                        smsList.add(new SMSData(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.BODY)), c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS))));
                     }
                     c.moveToNext();
                 }
                 c.close();
             }
-
         } else {
             Toast.makeText(this.getContext(), "No message to show!", Toast.LENGTH_SHORT).show();
         }

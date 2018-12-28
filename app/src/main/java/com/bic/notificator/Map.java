@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class Map {
 
-    private static String raw;
+    private String raw;
     private List list;
     String lon;
     String latt;

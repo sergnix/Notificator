@@ -43,7 +43,11 @@ public class MapViewActivity extends Activity {
         super.onCreate(savedInstanceState);
         mapView = (MapView) findViewById(R.id.mapview);
 
-        Map map = new Map();
+        Intent intention = getIntent();
+
+        String raw = intention.getStringExtra("raw");
+
+        Map map = new Map(raw);
 
         Point point = new Point(map.getLatt(), map.getLon());
 

@@ -100,6 +100,7 @@ public class Tab1Last extends Fragment {
 //                Double coordLatt = map.getLatt();
 //                intention.putExtra("coordLon", coordLon);
 //                intention.putExtra("coordLatt", coordLatt);
+                intention.putExtra("raw", String.valueOf(list.get(10)));
                 startActivity(intention);
             }
         });

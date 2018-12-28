@@ -26,7 +26,6 @@ public class SMSListAdapter extends ArrayAdapter<SMSData> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = this.inflater.inflate(this.resource, parent, false);
 
-        TextView title = (TextView) view.findViewById(R.id.title);
         TextView phoneNumber = (TextView) view.findViewById(R.id.phone);
         TextView number = (TextView) view.findViewById(R.id.number);
         TextView lac = (TextView) view.findViewById(R.id.lac);

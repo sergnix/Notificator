@@ -1,12 +1,19 @@
 package com.bic.notificator;
 
-import java.lang.reflect.Array;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.database.Cursor;
+import android.provider.Telephony;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class SMSData {
 
+    ArrayList listsms;
+    private String datesms;
     private String body;
     private String phone;
     List<String> data;
@@ -18,19 +25,18 @@ public class SMSData {
     private String lont;
     private String lat;
 
-    public SMSData(String body, String phone) {
+    public SMSData(String body, String phone, String datesms) {
         this.body = body;
         this.data = Arrays.asList(body.split("\\$"));
         this.phone = phone;
+        this.datesms = datesms;
     }
 
     public String getPhone() {
         return phone;
     }
 
-    public String getCid() {
-        return data.get(6);
-    }
+    public String getCid() { return data.get(6); }
 
     public String getLac() {
         return data.get(5);
@@ -52,9 +58,7 @@ public class SMSData {
         return data.get(10);
     }
 
-    public String getLont() {
-        return data.get(10);
-    }
+    public String getLont() { return data.get(10); }
 
     public void setLont(String lont) {
         this.lont = lont;
@@ -87,4 +91,5 @@ public class SMSData {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
 }

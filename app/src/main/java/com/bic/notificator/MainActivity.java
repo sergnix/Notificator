@@ -30,6 +30,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.yandex.mapkit.MapKitFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MapKitFactory.setApiKey("5dd517ed-ca71-4d05-b644-58b979f0d724");
+        MapKitFactory.initialize(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

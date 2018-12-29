@@ -9,13 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.prefs.Preferences;
-
 public class Settings extends AppCompatActivity {
 
     Button btnSave;

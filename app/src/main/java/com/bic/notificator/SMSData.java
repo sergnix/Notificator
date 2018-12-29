@@ -1,11 +1,5 @@
 package com.bic.notificator;
 
-import android.content.ContentResolver;
-import android.content.Context;
-import android.database.Cursor;
-import android.provider.Telephony;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

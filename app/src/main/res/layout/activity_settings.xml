@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Введите номера которые должны подвергаться разбору смс. Можно вводить несколько значений через запятую."/>
+        android:text="Введите номера которые должны подвергаться разбору смс. Можно вводить несколько значений через запятую. Вводить в формате +7123..."/>
 
     <EditText
         android:id="@+id/numberForParseSMS"

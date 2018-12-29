@@ -42,25 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        MapKitFactory.setApiKey("5dd517ed-ca71-4d05-b644-58b979f0d724");
-        MapKitFactory.initialize(this);
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
         // ---------------Copying from Google
         // Here, thisActivity is the current activity
@@ -80,7 +63,24 @@ public class MainActivity extends AppCompatActivity {
                 // result of the request.
             }
         } else {
-            // Permission has already been granted
+            setContentView(R.layout.activity_main);
+
+            MapKitFactory.setApiKey("5dd517ed-ca71-4d05-b644-58b979f0d724");
+            MapKitFactory.initialize(this);
+
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            // Create the adapter that will return a fragment for each of the three
+            // primary sections of the activity.
+            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+            // Set up the ViewPager with the sections adapter.
+            mViewPager = (ViewPager) findViewById(R.id.container);
+            mViewPager.setAdapter(mSectionsPagerAdapter);
+
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+            mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+            tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
         }
         // ---------------Copying from Google
     }
@@ -149,11 +149,25 @@ public class MainActivity extends AppCompatActivity {
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             // permission was granted, yay! Do the
             // contacts-related task you need to do.
+            setContentView(R.layout.activity_main);
+
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            // Create the adapter that will return a fragment for each of the three
+            // primary sections of the activity.
+            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+            // Set up the ViewPager with the sections adapter.
+            mViewPager = (ViewPager) findViewById(R.id.container);
+            mViewPager.setAdapter(mSectionsPagerAdapter);
+
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+            mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+            tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
         } else {
-            // permission denied, boo! Disable the
-            // functionality that depends on this permission.
+            Toast.makeText(this, "Нужно предоставить доступ к смс чтобы приложение заработало", Toast.LENGTH_LONG).show();
+            finish();
         }
-        return;
     }
     // ---------------Copying from Google
 }

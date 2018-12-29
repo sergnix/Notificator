@@ -55,7 +55,6 @@ public class Settings extends AppCompatActivity {
     public boolean checkNumber(String string, Context context) {
         sPref = context.getSharedPreferences("numberparse", MODE_PRIVATE);
         numberForParse = sPref.getString("numberparse", "");
-        System.out.println("debugg " + String.valueOf(numberForParse));
         return numberForParse.contains(string);
     }
 

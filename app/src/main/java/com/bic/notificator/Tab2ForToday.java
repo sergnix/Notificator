@@ -37,15 +37,20 @@ public class Tab2ForToday extends Fragment {
         adapter = new SMSListAdapter(this.getContext(), R.layout.sms_list_item, listsms);
         messageList.setAdapter(adapter);
 
-        messageList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), "No message to show!", Toast.LENGTH_SHORT).show();
-                Intent intention = new Intent(getContext(), MapViewActivity.class);
-                startActivity(intention);
-                return true;
-            }
-        });
+        if (listsms.isEmpty()) {
+            Intent intention = new Intent(this.getContext(), Settings.class);
+            startActivity(intention);
+        }
+
+//        messageList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(getContext(), "No message to show!", Toast.LENGTH_SHORT).show();
+//                Intent intention = new Intent(getContext(), MapViewActivity.class);
+//                startActivity(intention);
+//                return true;
+//            }
+//        });
 
         return rootView;
     }

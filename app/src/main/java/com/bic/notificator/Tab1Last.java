@@ -37,6 +37,7 @@ public class Tab1Last extends Fragment {
     TextView cid;
     TextView mcc;
     TextView mns;
+    TextView address;
     MapView mapview;
     List<String> list;
 
@@ -54,6 +55,9 @@ public class Tab1Last extends Fragment {
         cid = (TextView) rootView.findViewById(R.id.cid);
         mcc = (TextView) rootView.findViewById(R.id.mcc);
         mns = (TextView) rootView.findViewById(R.id.mns);
+        address = (TextView) rootView.findViewById(R.id.address);
+        btn = (Button) rootView.findViewById(R.id.showmap);
+        mapview = (MapView) rootView.findViewById(R.id.mapview);
 
         ContentResolver cr = rootView.getContext().getContentResolver();
         Cursor c = cr.query(Telephony.Sms.CONTENT_URI, null, null, null, null);
@@ -61,25 +65,33 @@ public class Tab1Last extends Fragment {
 
         listsms = getAllSms(rootView.getContext());
 
+        if (listsms.isEmpty()) {
+            Intent intention = new Intent(this.getContext(), Settings.class);
+            startActivity(intention);
+        } else {
+
         list = Arrays.asList(listsms.get(0).getBody().split("\\$"));
 
         lac.setText((String) list.get(5));
         cid.setText((String) list.get(6));
         mcc.setText((String) list.get(3));
         mns.setText((String) list.get(4));
-
-        btn = (Button) rootView.findViewById(R.id.showmap);
+        address.setText((String) list.get(8));
 
         final Map map = new Map(String.valueOf(list.get(10)));
 
         final Point pointOnMap = new Point(map.getLon(), map.getLatt());
 
-        mapview = (MapView) rootView.findViewById(R.id.mapview);
+        MapKitFactory.setApiKey("5dd517ed-ca71-4d05-b644-58b979f0d724");
+        MapKitFactory.initialize(this.requireContext());
+        
         mapview.getMap().move(
                 new CameraPosition(pointOnMap, 11.0f, 0.0f, 0.0f),
                 new Animation(Animation.Type.SMOOTH, 0),
                 null);
         mapview.getMap().getMapObjects().addPlacemark(pointOnMap);
+
+        }
 
 //        btnfind = (Button) rootView.findViewById(R.id.find);
 //        btnfind.setOnClickListener(new View.OnClickListener() {

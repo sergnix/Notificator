@@ -37,10 +37,10 @@ public class Tab2ForToday extends Fragment {
         adapter = new SMSListAdapter(this.getContext(), R.layout.sms_list_item, listsms);
         messageList.setAdapter(adapter);
 
-        if (listsms.isEmpty()) {
-            Intent intention = new Intent(this.getContext(), Settings.class);
-            startActivity(intention);
-        }
+//        if (listsms.isEmpty()) {
+//            Intent intention = new Intent(this.getContext(), Settings.class);
+//            startActivity(intention);
+//        }
 
 //        messageList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 //            @Override

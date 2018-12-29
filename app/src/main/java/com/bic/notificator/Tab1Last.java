@@ -42,7 +42,7 @@ public class Tab1Last extends Fragment {
     List<String> list;
 
     Button btn;
-    Button btnfind;
+//    Button btnfind;
 
     public ArrayList<SMSData> listsms;
 
@@ -69,6 +69,7 @@ public class Tab1Last extends Fragment {
         listsms = getAllSms(rootView.getContext());
 
         if (listsms.isEmpty()) {
+            Toast.makeText(this.requireContext(), "Нет подходящих смс", Toast.LENGTH_SHORT).show();
             Intent intention = new Intent(this.getContext(), Settings.class);
             startActivity(intention);
         } else {

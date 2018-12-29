@@ -48,6 +48,9 @@ public class Tab1Last extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
+        MapKitFactory.setApiKey("5dd517ed-ca71-4d05-b644-58b979f0d724");
+        MapKitFactory.initialize(this.requireContext());
+
         final View rootView = inflater.inflate(R.layout.tab1last, container, false);
 
         phoneNumber = (TextView) rootView.findViewById(R.id.phone);
@@ -82,9 +85,6 @@ public class Tab1Last extends Fragment {
 
         final Point pointOnMap = new Point(map.getLon(), map.getLatt());
 
-        MapKitFactory.setApiKey("5dd517ed-ca71-4d05-b644-58b979f0d724");
-        MapKitFactory.initialize(this.requireContext());
-        
         mapview.getMap().move(
                 new CameraPosition(pointOnMap, 11.0f, 0.0f, 0.0f),
                 new Animation(Animation.Type.SMOOTH, 0),

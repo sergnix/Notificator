@@ -20,6 +20,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -64,9 +65,6 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             setContentView(R.layout.activity_main);
-
-            MapKitFactory.setApiKey("5dd517ed-ca71-4d05-b644-58b979f0d724");
-            MapKitFactory.initialize(this);
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);

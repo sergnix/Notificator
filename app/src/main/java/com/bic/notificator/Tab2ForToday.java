@@ -25,7 +25,8 @@ public class Tab2ForToday extends Fragment {
 
     ListView messageList;
     ArrayAdapter<SMSData> adapter;
-    ArrayList<SMSData> listsms;
+
+    public ArrayList<SMSData> listsms;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {

@@ -14,7 +14,12 @@ public class SMSData {
 
     ArrayList listsms;
     private String datesms;
-    private String body;
+
+    public String getBody() {
+        return body;
+    }
+
+    public String body;
     private String phone;
     List<String> data;
     private String Lac;

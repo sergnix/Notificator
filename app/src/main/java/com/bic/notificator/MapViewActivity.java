@@ -49,7 +49,7 @@ public class MapViewActivity extends Activity {
 
         Map map = new Map(raw);
 
-        Point point = new Point(map.getLatt(), map.getLon());
+        Point point = new Point(map.getLon(), map.getLatt());
 
         // And to show what can be done with it, we move the camera to the center of Saint Petersburg.
         mapView.getMap().move(

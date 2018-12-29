@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,16 +32,18 @@ import java.util.List;
 
 public class Tab1Last extends Fragment {
 
-    List list;
     TextView phoneNumber;
     TextView lac;
     TextView cid;
     TextView mcc;
     TextView mns;
     MapView mapview;
+    List<String> list;
 
     Button btn;
     Button btnfind;
+
+    public ArrayList<SMSData> listsms;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -54,11 +57,11 @@ public class Tab1Last extends Fragment {
 
         ContentResolver cr = rootView.getContext().getContentResolver();
         Cursor c = cr.query(Telephony.Sms.CONTENT_URI, null, null, null, null);
-        if (c != null) {
-            c.moveToFirst();
-            list = Arrays.asList(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.BODY)).split("\\$"));
-            c.close();
-        }
+
+
+        listsms = getAllSms(rootView.getContext());
+
+        list = Arrays.asList(listsms.get(0).getBody().split("\\$"));
 
         lac.setText((String) list.get(5));
         cid.setText((String) list.get(6));
@@ -69,43 +72,60 @@ public class Tab1Last extends Fragment {
 
         final Map map = new Map(String.valueOf(list.get(10)));
 
-        mapview = (MapView) rootView.findViewById(R.id.mapview);
-        mapview.getMap().move(
-                new CameraPosition(new Point(map.getLon(), map.getLatt()), 11.0f, 0.0f, 0.0f),
-                new Animation(Animation.Type.SMOOTH, 0),
-                null);
-
-        btnfind = (Button) rootView.findViewById(R.id.find);
-
         final Point pointOnMap = new Point(map.getLon(), map.getLatt());
 
+        mapview = (MapView) rootView.findViewById(R.id.mapview);
+        mapview.getMap().move(
+                new CameraPosition(pointOnMap, 11.0f, 0.0f, 0.0f),
+                new Animation(Animation.Type.SMOOTH, 0),
+                null);
         mapview.getMap().getMapObjects().addPlacemark(pointOnMap);
 
-        btnfind.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mapview = (MapView) rootView.findViewById(R.id.mapview);
-                mapview.getMap().move(
-                        new CameraPosition(pointOnMap, 20.0f, 0.0f, 0.0f),
-                        new Animation(Animation.Type.SMOOTH, 3),
-                        null);
-            }
-        });
+//        btnfind = (Button) rootView.findViewById(R.id.find);
+//        btnfind.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mapview.getMap().move(
+//                        new CameraPosition(pointOnMap, 20.0f, 0.0f, 0.0f),
+//                        new Animation(Animation.Type.SMOOTH, 3),
+//                        null);
+//            }
+//        });
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intention = new Intent(rootView.getContext(), MapViewActivity.class);
-//                Double coordLon = map.getLon();
-//                Double coordLatt = map.getLatt();
-//                intention.putExtra("coordLon", coordLon);
-//                intention.putExtra("coordLatt", coordLatt);
                 intention.putExtra("raw", String.valueOf(list.get(10)));
                 startActivity(intention);
             }
         });
 
         return rootView;
+    }
+
+    public ArrayList<SMSData> getAllSms(Context context) {
+        ArrayList<SMSData> smsList;
+        smsList = new ArrayList<SMSData>();
+        ContentResolver cr = context.getContentResolver();
+        int totalSMS = 0;
+        Cursor c = cr.query(Telephony.Sms.CONTENT_URI, null, null, null, null);
+        Settings settings = new Settings();
+        if (c != null) {
+            totalSMS = c.getCount();
+            if (c.moveToFirst()) {
+                for (int j = 0; j < totalSMS; j++) {
+                    if (settings.checkNumber(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS)), context)) {
+                        smsList.add(new SMSData(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.BODY)), c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS)), c.getString(c.getColumnIndexOrThrow(Telephony.Sms.DATE))));
+                    }
+                    c.moveToNext();
+                }
+                c.close();
+            }
+        } else {
+            Toast.makeText(context, "No message to show!", Toast.LENGTH_SHORT).show();
+        }
+        return smsList;
     }
 
 

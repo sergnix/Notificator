@@ -27,7 +27,8 @@ public class Tab2ForToday extends Fragment {
         View rootView = inflater.inflate(R.layout.tab2fortoday, container, false);
 
         messageList = (ListView) rootView.findViewById(R.id.listsms);
-        listsms = getAllSms(rootView.getContext());
+        Utils util = new Utils();
+        listsms = util.getAllSms(rootView.getContext());
         adapter = new SMSListAdapter(this.getContext(), R.layout.sms_list_item, listsms);
         messageList.setAdapter(adapter);
 
@@ -47,29 +48,5 @@ public class Tab2ForToday extends Fragment {
 //        });
 
         return rootView;
-    }
-
-    public ArrayList<SMSData> getAllSms(Context context) {
-        ArrayList<SMSData> smsList;
-        smsList = new ArrayList<SMSData>();
-        ContentResolver cr = context.getContentResolver();
-        int totalSMS = 0;
-        Cursor c = cr.query(Telephony.Sms.CONTENT_URI, null, null, null, null);
-        Settings settings = new Settings();
-        if (c != null) {
-            totalSMS = c.getCount();
-            if (c.moveToFirst()) {
-                for (int j = 0; j < totalSMS; j++) {
-                    if (settings.checkNumber(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS)), context)) {
-                        smsList.add(new SMSData(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.BODY)), c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS)), c.getString(c.getColumnIndexOrThrow(Telephony.Sms.DATE))));
-                    }
-                    c.moveToNext();
-                }
-                c.close();
-            }
-        } else {
-            Toast.makeText(context, "No message to show!", Toast.LENGTH_SHORT).show();
-        }
-        return smsList;
     }
 }

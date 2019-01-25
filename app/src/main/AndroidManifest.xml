@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bic.notificator">
 
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.INTERNET" />
+
 
     <application
         android:allowBackup="true"
@@ -26,7 +28,7 @@
         <activity android:name=".MapViewActivity" />
 
         <receiver
-            android:name="com.bic.notificator.SMSReceiver"
+            android:name=".SMSReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

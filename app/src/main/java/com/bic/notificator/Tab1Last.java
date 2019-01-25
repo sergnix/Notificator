@@ -36,7 +36,6 @@ public class Tab1Last extends Fragment {
     List<String> list;
 
     Button btn;
-//    Button btnfind;
 
     public ArrayList<SMSData> listsms;
 

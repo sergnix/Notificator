@@ -81,11 +81,9 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    Tab1Last tab1 = new Tab1Last();
-                    return tab1;
+                    return new Tab1Last();
                 case 1:
-                    Tab2ForToday tab2 = new Tab2ForToday();
-                    return tab2;
+                    return new Tab2ForToday();
                 default:
                     return null;
             }

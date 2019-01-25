@@ -4,9 +4,9 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.bic.notificator"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 28
-        versionCode 1
+        versionCode 13
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

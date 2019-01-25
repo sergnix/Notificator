@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -22,14 +23,12 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
+    public SectionsPagerAdapter mSectionsPagerAdapter;
+    public ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         // ---------------Copying from Google
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
@@ -39,32 +38,17 @@ public class MainActivity extends AppCompatActivity {
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS}, 1);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS}, 1);
             } else {
                 // No explanation needed; request the permission
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS}, 1);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS}, 1);
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                 // app-defined int constant. The callback method gets the
                 // result of the request.
             }
         } else {
-            setContentView(R.layout.activity_main);
-
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
-            // Create the adapter that will return a fragment for each of the three
-            // primary sections of the activity.
-            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-            // Set up the ViewPager with the sections adapter.
-            mViewPager = (ViewPager) findViewById(R.id.container);
-            mViewPager.setAdapter(mSectionsPagerAdapter);
-
-            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-            mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-            tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+            enableRenderActivity();
         }
-        // ---------------Copying from Google
     }
 
     @Override
@@ -97,11 +81,9 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    Tab1Last tab1 = new Tab1Last();
-                    return tab1;
+                    return new Tab1Last();
                 case 1:
-                    Tab2ForToday tab2 = new Tab2ForToday();
-                    return tab2;
+                    return new Tab2ForToday();
                 default:
                     return null;
             }
@@ -131,27 +113,30 @@ public class MainActivity extends AppCompatActivity {
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             // permission was granted, yay! Do the
             // contacts-related task you need to do.
-            setContentView(R.layout.activity_main);
-
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
-            // Create the adapter that will return a fragment for each of the three
-            // primary sections of the activity.
-            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-            // Set up the ViewPager with the sections adapter.
-            mViewPager = (ViewPager) findViewById(R.id.container);
-            mViewPager.setAdapter(mSectionsPagerAdapter);
-
-            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-            mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-            tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+            enableRenderActivity();
         } else {
             Toast.makeText(this, "Нужно предоставить доступ к смс чтобы приложение заработало", Toast.LENGTH_LONG).show();
             finish();
         }
     }
-    // ---------------Copying from Google
+
+    public void enableRenderActivity() {
+        setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+    }
 }
 
 

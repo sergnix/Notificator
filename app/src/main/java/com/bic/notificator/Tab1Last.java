@@ -86,7 +86,6 @@ public class Tab1Last extends Fragment {
         mapview.getMap().getMapObjects().addPlacemark(pointOnMap);
 
         }
-
 //        btnfind = (Button) rootView.findViewById(R.id.find);
 //        btnfind.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -108,5 +107,9 @@ public class Tab1Last extends Fragment {
         });
 
         return rootView;
+    }
+
+    public void updateSMSData(String strMessage, String originatingAddress, String datesms) {
+        listsms.add(new SMSData(strMessage, originatingAddress, datesms));
     }
 }

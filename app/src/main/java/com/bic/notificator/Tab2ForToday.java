@@ -1,7 +1,9 @@
 package com.bic.notificator;
 
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.Telephony;
@@ -14,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Tab2ForToday extends Fragment {
 
@@ -24,13 +27,6 @@ public class Tab2ForToday extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.tab2fortoday, container, false);
-
-        messageList = (ListView) rootView.findViewById(R.id.listsms);
-        Utils util = new Utils();
-        listsms = util.getAllSms(rootView.getContext());
-        adapter = new SMSListAdapter(this.getContext(), R.layout.sms_list_item, listsms);
-        messageList.setAdapter(adapter);
 
 //        if (listsms.isEmpty()) {
 //            Intent intention = new Intent(this.getContext(), Settings.class);
@@ -47,19 +43,24 @@ public class Tab2ForToday extends Fragment {
 //            }
 //        });
 
-        return rootView;
+        return renderActivity(inflater.inflate(R.layout.tab2fortoday, container, false));
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        renderActivity(Objects.requireNonNull(getView()));
+    }
 
-        View rootView = getView();
-
+    public View renderActivity(View rootView) {
         messageList = (ListView) rootView.findViewById(R.id.listsms);
         Utils util = new Utils();
         listsms = util.getAllSms(rootView.getContext());
         adapter = new SMSListAdapter(this.getContext(), R.layout.sms_list_item, listsms);
         messageList.setAdapter(adapter);
+
+        return rootView;
     }
+
+
 }

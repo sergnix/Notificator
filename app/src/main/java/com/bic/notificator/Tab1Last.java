@@ -58,7 +58,7 @@ public class Tab1Last extends Fragment {
         renderActivity(Objects.requireNonNull(getView()));
     }
 
-    private View renderActivity(final View rootView) {
+    public View renderActivity(final View rootView) {
         phoneNumber = (TextView) rootView.findViewById(R.id.phone);
         lac = (TextView) rootView.findViewById(R.id.lac);
         cid = (TextView) rootView.findViewById(R.id.cid);

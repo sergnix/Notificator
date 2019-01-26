@@ -47,9 +47,9 @@ public class SMSReceiver extends BroadcastReceiver {
                 originatingAddress = msgs[i].getOriginatingAddress();
             }
             Toast.makeText(context, strMessage + originatingAddress, Toast.LENGTH_LONG).show();
-//            ArrayList<SMSData> smsList;
-//            smsList = new ArrayList<SMSData>();
-//            smsList.add(new SMSData(strMessage, originatingAddress, "213213123123"));
+
+            Intent intent_test = new Intent("test");
+            intent_test.getAction("test");
         }
     }
 

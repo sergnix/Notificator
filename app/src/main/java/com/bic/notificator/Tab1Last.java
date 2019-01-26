@@ -23,6 +23,7 @@ import com.yandex.mapkit.mapview.MapView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Tab1Last extends Fragment {
 
@@ -44,8 +45,20 @@ public class Tab1Last extends Fragment {
         MapKitFactory.setApiKey("5dd517ed-ca71-4d05-b644-58b979f0d724");
         MapKitFactory.initialize(this.requireContext());
 
-        final View rootView = inflater.inflate(R.layout.tab1last, container, false);
+        return renderActivity(inflater.inflate(R.layout.tab1last, container, false));
+    }
 
+    public void updateSMSData(String strMessage, String originatingAddress, String datesms) {
+        listsms.add(new SMSData(strMessage, originatingAddress, datesms));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        renderActivity(Objects.requireNonNull(getView()));
+    }
+
+    private View renderActivity(final View rootView) {
         phoneNumber = (TextView) rootView.findViewById(R.id.phone);
         lac = (TextView) rootView.findViewById(R.id.lac);
         cid = (TextView) rootView.findViewById(R.id.cid);
@@ -67,35 +80,24 @@ public class Tab1Last extends Fragment {
             startActivity(intention);
         } else {
 
-        list = Arrays.asList(listsms.get(0).getBody().split("\\$"));
+            list = Arrays.asList(listsms.get(0).getBody().split("\\$"));
 
-        lac.setText((String) list.get(5));
-        cid.setText((String) list.get(6));
-        mcc.setText((String) list.get(3));
-        mns.setText((String) list.get(4));
-        address.setText((String) list.get(8));
+            lac.setText((String) list.get(5));
+            cid.setText((String) list.get(6));
+            mcc.setText((String) list.get(3));
+            mns.setText((String) list.get(4));
+            address.setText((String) list.get(8));
 
-        final Map map = new Map(String.valueOf(list.get(10)));
+            final Map map = new Map(String.valueOf(list.get(10)));
 
-        final Point pointOnMap = new Point(map.getLon(), map.getLatt());
+            final Point pointOnMap = new Point(map.getLon(), map.getLatt());
 
-        mapview.getMap().move(
-                new CameraPosition(pointOnMap, 11.0f, 0.0f, 0.0f),
-                new Animation(Animation.Type.SMOOTH, 0),
-                null);
-        mapview.getMap().getMapObjects().addPlacemark(pointOnMap);
-
+            mapview.getMap().move(
+                    new CameraPosition(pointOnMap, 11.0f, 0.0f, 0.0f),
+                    new Animation(Animation.Type.SMOOTH, 0),
+                    null);
+            mapview.getMap().getMapObjects().addPlacemark(pointOnMap);
         }
-//        btnfind = (Button) rootView.findViewById(R.id.find);
-//        btnfind.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mapview.getMap().move(
-//                        new CameraPosition(pointOnMap, 20.0f, 0.0f, 0.0f),
-//                        new Animation(Animation.Type.SMOOTH, 3),
-//                        null);
-//            }
-//        });
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,10 +108,17 @@ public class Tab1Last extends Fragment {
             }
         });
 
-        return rootView;
-    }
+        //        btnfind = (Button) rootView.findViewById(R.id.find);
+//        btnfind.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mapview.getMap().move(
+//                        new CameraPosition(pointOnMap, 20.0f, 0.0f, 0.0f),
+//                        new Animation(Animation.Type.SMOOTH, 3),
+//                        null);
+//            }
+//        });
 
-    public void updateSMSData(String strMessage, String originatingAddress, String datesms) {
-        listsms.add(new SMSData(strMessage, originatingAddress, datesms));
+        return rootView;
     }
 }

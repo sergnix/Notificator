@@ -49,4 +49,17 @@ public class Tab2ForToday extends Fragment {
 
         return rootView;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        View rootView = getView();
+
+        messageList = (ListView) rootView.findViewById(R.id.listsms);
+        Utils util = new Utils();
+        listsms = util.getAllSms(rootView.getContext());
+        adapter = new SMSListAdapter(this.getContext(), R.layout.sms_list_item, listsms);
+        messageList.setAdapter(adapter);
+    }
 }

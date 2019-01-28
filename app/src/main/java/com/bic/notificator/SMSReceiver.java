@@ -48,8 +48,8 @@ public class SMSReceiver extends BroadcastReceiver {
             }
             Toast.makeText(context, strMessage + originatingAddress, Toast.LENGTH_LONG).show();
 
-            Intent intent_test = new Intent("test");
-            intent_test.getAction("test");
+//            Intent intent_test = new Intent("test");
+//            intent_test.getAction("test");
         }
     }
 

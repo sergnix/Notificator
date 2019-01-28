@@ -20,29 +20,34 @@
         <TextView
             android:id="@+id/lac"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize = "20sp" />
 
 
         <TextView
             android:id="@+id/cid"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize = "20sp" />
 
         <TextView
             android:id="@+id/mcc"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize = "20sp" />
 
         <TextView
             android:id="@+id/mns"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize = "20sp" />
 
         <TextView
             android:id="@+id/address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minLines="3"/>
+            android:minLines="3"
+            android:textSize = "20sp"/>
 
     </LinearLayout>
 

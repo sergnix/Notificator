@@ -126,17 +126,7 @@ public class Tab1Last extends Fragment {
                 startActivity(intention);
             }
         });
-
-//        btnfind = (Button) rootView.findViewById(R.id.find);
-//        btnfind.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mapview.getMap().move(
-//                        new CameraPosition(pointOnMap, 20.0f, 0.0f, 0.0f),
-//                        new Animation(Animation.Type.SMOOTH, 3),
-//                        null);
-//            }
-//        });
+        
         return rootView;
     }
 

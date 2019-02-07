@@ -38,8 +38,10 @@ public class Settings extends AppCompatActivity {
                 SharedPreferences.Editor editor = sPref.edit();
                 editor.putString("numberparse", ed.getText().toString());
                 editor.apply();
-                Intent intention = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intention);
+//                Intent intention = new Intent(getApplicationContext(), MainActivity.class);
+//                startActivity(intention);
+                finish();
+
             }
         });
 
@@ -50,5 +52,4 @@ public class Settings extends AppCompatActivity {
         numberForParse = sPref.getString("numberparse", "");
         return numberForParse.contains(string);
     }
-
 }

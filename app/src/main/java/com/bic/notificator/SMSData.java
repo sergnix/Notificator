@@ -8,11 +8,9 @@ public class SMSData {
 
     ArrayList listsms;
     private String datesms;
-
     public String getBody() {
         return body;
     }
-
     public String body;
     private String phone;
     List<String> data;
@@ -24,7 +22,7 @@ public class SMSData {
     private String lont;
     private String lat;
 
-    public SMSData(String body, String phone, String datesms) {
+    SMSData(String body, String phone, String datesms) {
         this.body = body;
         this.data = Arrays.asList(body.split("\\$"));
         this.phone = phone;

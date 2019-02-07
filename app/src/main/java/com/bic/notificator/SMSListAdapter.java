@@ -1,6 +1,7 @@
 package com.bic.notificator;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ public class SMSListAdapter extends ArrayAdapter<SMSData> {
         this.inflater = LayoutInflater.from(context);
     }
 
+    @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = this.inflater.inflate(this.resource, parent, false);
@@ -36,7 +38,7 @@ public class SMSListAdapter extends ArrayAdapter<SMSData> {
         SMSData msg = this.data.get(position);
 
         phoneNumber.setText("Телефонный номер: " + msg.getPhone());
-        number.setText(String.valueOf(position));
+        number.setText(String.valueOf(position + 1));
         lac.setText(msg.getLac());
         cid.setText(msg.getCid());
         mcc.setText(msg.getMcc());

@@ -32,8 +32,4 @@ public class Utils {
         }
         return smsList;
     }
-
-    public void updateSMSData(ArrayList<SMSData> smsList, String strMessage, String originatingAddress, String datesms) {
-        smsList.add(new SMSData(strMessage, originatingAddress, datesms));
-    }
 }

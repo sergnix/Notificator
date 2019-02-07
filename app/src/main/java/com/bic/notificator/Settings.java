@@ -52,5 +52,4 @@ public class Settings extends AppCompatActivity {
         numberForParse = sPref.getString("numberparse", "");
         return numberForParse.contains(string);
     }
-
 }

@@ -1,19 +1,20 @@
 package com.bic.notificator;
 
-import android.content.ContentResolver;
+import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.database.Cursor;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.provider.Telephony;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Tab2ForToday extends Fragment {
 
@@ -22,15 +23,19 @@ public class Tab2ForToday extends Fragment {
 
     public ArrayList<SMSData> listsms;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.tab2fortoday, container, false);
+    BroadcastReceiver br;
 
-        messageList = (ListView) rootView.findViewById(R.id.listsms);
-        Utils util = new Utils();
-        listsms = util.getAllSms(rootView.getContext());
-        adapter = new SMSListAdapter(this.getContext(), R.layout.sms_list_item, listsms);
-        messageList.setAdapter(adapter);
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
+        br = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                onResume();
+            }
+        };
+
+        IntentFilter intFilt = new IntentFilter(Tab1Last.BROADCAST_ACTION);
+        Objects.requireNonNull(getContext()).registerReceiver(br, intFilt);
 
 //        if (listsms.isEmpty()) {
 //            Intent intention = new Intent(this.getContext(), Settings.class);
@@ -47,19 +52,29 @@ public class Tab2ForToday extends Fragment {
 //            }
 //        });
 
-        return rootView;
+        return renderFragment(inflater.inflate(R.layout.tab2fortoday, container, false));
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        renderFragment(Objects.requireNonNull(getView()));
+    }
 
-        View rootView = getView();
+//    @Override
+//    public void onStop()
+//    {
+//        Objects.requireNonNull(getContext()).unregisterReceiver(br);
+//        super.onStop();
+//    }
 
+    public View renderFragment(View rootView) {
         messageList = (ListView) rootView.findViewById(R.id.listsms);
         Utils util = new Utils();
         listsms = util.getAllSms(rootView.getContext());
         adapter = new SMSListAdapter(this.getContext(), R.layout.sms_list_item, listsms);
         messageList.setAdapter(adapter);
+
+        return rootView;
     }
 }

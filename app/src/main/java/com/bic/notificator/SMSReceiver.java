@@ -21,11 +21,11 @@ public class SMSReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
         SmsMessage[] msgs;
-        String strMessage = "";
+        StringBuilder strMessage = new StringBuilder();
         String originatingAddress = "";
-        String format = bundle.getString("format");
+        String format = bundle != null ? bundle.getString("format") : null;
         // Retrieve the SMS message received.
-        Object[] pdus = (Object[]) bundle.get(pdu_type);
+        Object[] pdus = (Object[]) (bundle != null ? bundle.get(pdu_type) : null);
         if (pdus != null) {
             // Check the Android version.
             boolean isVersionM =
@@ -43,13 +43,13 @@ public class SMSReceiver extends BroadcastReceiver {
                 }
                 // Build the message to show.
 //                strMessage += "SMS from " + msgs[i].getOriginatingAddress();
-                strMessage += msgs[i].getMessageBody();
+                strMessage.append(msgs[i].getMessageBody());
                 originatingAddress = msgs[i].getOriginatingAddress();
             }
-            Toast.makeText(context, strMessage + originatingAddress, Toast.LENGTH_LONG).show();
-//            ArrayList<SMSData> smsList;
-//            smsList = new ArrayList<SMSData>();
-//            smsList.add(new SMSData(strMessage, originatingAddress, "213213123123"));
+//            Toast.makeText(context, strMessage + originatingAddress, Toast.LENGTH_LONG).show();
+
+            Intent intent_tabs_renew = new Intent(Tab1Last.BROADCAST_ACTION);
+            context.sendBroadcast(intent_tabs_renew);
         }
     }
 

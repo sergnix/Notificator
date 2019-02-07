@@ -88,6 +88,12 @@ public class Tab1Last extends Fragment {
         listsms = util.getAllSms(rootView.getContext());
 
         if (listsms.isEmpty()) {
+            lac.setText("");
+            cid.setText("");
+            mcc.setText("");
+            mns.setText("");
+            address.setText("");
+            mapview.onStart();
             return rootView;
         } else {
             SMSBodyItem = Arrays.asList(listsms.get(0).getBody().split("\\$"));

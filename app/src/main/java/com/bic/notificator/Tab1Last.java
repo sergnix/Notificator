@@ -74,14 +74,7 @@ public class Tab1Last extends Fragment {
         renderFragment(Objects.requireNonNull(getView()));
     }
 
-//    @Override
-//    public void onStop()
-//    {
-//        Objects.requireNonNull(getContext()).unregisterReceiver(br);
-//        super.onStop();
-//    }
-
-    public void renderFragment(final View rootView) {
+    public View renderFragment(final View rootView) {
         phoneNumber = (TextView) rootView.findViewById(R.id.phone);
         lac = (TextView) rootView.findViewById(R.id.lac);
         cid = (TextView) rootView.findViewById(R.id.cid);
@@ -95,9 +88,7 @@ public class Tab1Last extends Fragment {
         listsms = util.getAllSms(rootView.getContext());
 
         if (listsms.isEmpty()) {
-            Toast.makeText(this.requireContext(), "Нет подходящих смс", Toast.LENGTH_SHORT).show();
-            Intent intention = new Intent(this.getContext(), Settings.class);
-            startActivity(intention);
+            return rootView;
         } else {
             SMSBodyItem = Arrays.asList(listsms.get(0).getBody().split("\\$"));
 
@@ -140,7 +131,7 @@ public class Tab1Last extends Fragment {
 //                        null);
 //            }
 //        });
-
+        return rootView;
     }
 
     private void sendNotification(String title, String body) {

@@ -33,25 +33,8 @@ public class Tab2ForToday extends Fragment {
                 onResume();
             }
         };
-
         IntentFilter intFilt = new IntentFilter(Tab1Last.BROADCAST_ACTION);
         Objects.requireNonNull(getContext()).registerReceiver(br, intFilt);
-
-//        if (listsms.isEmpty()) {
-//            Intent intention = new Intent(this.getContext(), Settings.class);
-//            startActivity(intention);
-//        }
-
-//        messageList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(getContext(), "No message to show!", Toast.LENGTH_SHORT).show();
-//                Intent intention = new Intent(getContext(), MapViewActivity.class);
-//                startActivity(intention);
-//                return true;
-//            }
-//        });
-
         return renderFragment(inflater.inflate(R.layout.tab2fortoday, container, false));
     }
 
@@ -61,20 +44,12 @@ public class Tab2ForToday extends Fragment {
         renderFragment(Objects.requireNonNull(getView()));
     }
 
-//    @Override
-//    public void onStop()
-//    {
-//        Objects.requireNonNull(getContext()).unregisterReceiver(br);
-//        super.onStop();
-//    }
-
     public View renderFragment(View rootView) {
         messageList = (ListView) rootView.findViewById(R.id.listsms);
         Utils util = new Utils();
         listsms = util.getAllSms(rootView.getContext());
         adapter = new SMSListAdapter(this.getContext(), R.layout.sms_list_item, listsms);
         messageList.setAdapter(adapter);
-
         return rootView;
     }
 }

@@ -3,7 +3,6 @@ package com.bic.notificator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
-
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Point;

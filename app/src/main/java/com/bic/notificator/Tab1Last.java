@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKitFactory;
@@ -42,11 +41,8 @@ public class Tab1Last extends Fragment {
     MapView mapview;
     List<String> SMSBodyItem;
     Button btn;
-
     BroadcastReceiver br;
-
     public ArrayList<SMSData> listsms;
-
     public static final String BROADCAST_ACTION = "tabs_renew";
 
     @Override
@@ -74,7 +70,7 @@ public class Tab1Last extends Fragment {
         renderFragment(Objects.requireNonNull(getView()));
     }
 
-    public View renderFragment(final View rootView) {
+    public void renderFragment(final View rootView) {
         phoneNumber = (TextView) rootView.findViewById(R.id.phone);
         lac = (TextView) rootView.findViewById(R.id.lac);
         cid = (TextView) rootView.findViewById(R.id.cid);
@@ -94,7 +90,7 @@ public class Tab1Last extends Fragment {
             mns.setText("");
             address.setText("");
             mapview.onStop();
-            return rootView;
+            return;
         } else {
             SMSBodyItem = Arrays.asList(listsms.get(0).getBody().split("\\$"));
 
@@ -126,8 +122,7 @@ public class Tab1Last extends Fragment {
                 startActivity(intention);
             }
         });
-        
-        return rootView;
+
     }
 
     private void sendNotification(String title, String body) {

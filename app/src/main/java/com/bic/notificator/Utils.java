@@ -5,13 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.Telephony;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Utils {
-    public ArrayList<SMSData> getAllSms(Context context) {
+class Utils {
+    ArrayList<SMSData> getAllSms(Context context) {
         ArrayList<SMSData> smsList;
         smsList = new ArrayList<SMSData>();
         ContentResolver cr = context.getContentResolver();

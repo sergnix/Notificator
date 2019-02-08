@@ -5,11 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Telephony;
 import android.telephony.SmsMessage;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -42,17 +38,11 @@ public class SMSReceiver extends BroadcastReceiver {
                     msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
                 }
                 // Build the message to show.
-//                strMessage += "SMS from " + msgs[i].getOriginatingAddress();
                 strMessage.append(msgs[i].getMessageBody());
-                originatingAddress = msgs[i].getOriginatingAddress();
             }
-//            Toast.makeText(context, strMessage + originatingAddress, Toast.LENGTH_LONG).show();
-
             Intent intent_tabs_renew = new Intent(Tab1Last.BROADCAST_ACTION);
             context.sendBroadcast(intent_tabs_renew);
         }
     }
-
-
 }
 

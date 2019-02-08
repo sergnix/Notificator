@@ -51,7 +51,6 @@ class Utils {
 
         return (calToday.getTime().getTime() >= calInitial.getTime().getTime()) &&
                 (calToday.getTime().getTime() <= calFinal.getTime().getTime());
-
     }
 
     private static Calendar setZeroHour(Date date) {

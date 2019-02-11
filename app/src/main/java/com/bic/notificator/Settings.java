@@ -11,10 +11,16 @@ import android.widget.EditText;
 public class Settings extends AppCompatActivity {
 
     public static SharedPreferences sPref;
+    static String numberForParse;
     Button btnSave;
     EditText ed;
-    static String numberForParse;
     String text;
+
+    public static boolean checkNumber(String string, Context context) {
+        sPref = context.getSharedPreferences("numberparse", MODE_PRIVATE);
+        numberForParse = sPref.getString("numberparse", "");
+        return numberForParse.contains(string);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +50,5 @@ public class Settings extends AppCompatActivity {
             }
         });
 
-    }
-
-    public static boolean checkNumber(String string, Context context) {
-        sPref = context.getSharedPreferences("numberparse", MODE_PRIVATE);
-        numberForParse = sPref.getString("numberparse", "");
-        return numberForParse.contains(string);
     }
 }

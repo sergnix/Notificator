@@ -58,7 +58,6 @@ public class Tab1Last extends Fragment {
                     MapKitFactory.getInstance().onStop();
                     onResume();
                 }
-
             }
         };
         IntentFilter intFilt = new IntentFilter(Tab1Last.BROADCAST_ACTION);

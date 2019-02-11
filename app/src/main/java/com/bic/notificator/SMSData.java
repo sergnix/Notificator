@@ -18,6 +18,7 @@ public class SMSData {
     private String Address;
     private String lont;
     private String lat;
+
     SMSData(String body, String phone, String datesms) {
         this.body = body;
         this.data = Arrays.asList(body.split("\\$"));

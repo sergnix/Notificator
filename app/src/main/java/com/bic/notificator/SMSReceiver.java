@@ -36,9 +36,14 @@ public class SMSReceiver extends BroadcastReceiver {
                     msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
                 }
                 // Build the message to show.
+                strMessage.append(msgs[i].getOriginatingAddress());
                 strMessage.append(msgs[i].getMessageBody());
             }
             Intent intent_tabs_renew = new Intent(Tab1Last.BROADCAST_ACTION);
+            String sms_from = msgs[0].getDisplayOriginatingAddress();
+            if (Settings.checkNumber(sms_from, context)) {
+                intent_tabs_renew.putExtra("isTrulySMS", true);
+            }
             context.sendBroadcast(intent_tabs_renew);
         }
     }

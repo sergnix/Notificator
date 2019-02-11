@@ -51,15 +51,18 @@ public class Tab1Last extends Fragment {
         br = new SMSReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                sendNotification("Получены новые данные о БС", "");
-                mapview.onStop();
-                MapKitFactory.getInstance().onStop();
-                onResume();
+                Boolean isTrulySMS = intent.getBooleanExtra("isTrulySMS", false);
+                if (isTrulySMS) {
+                    sendNotification("Получены новые данные о БС", "");
+                    mapview.onStop();
+                    MapKitFactory.getInstance().onStop();
+                    onResume();
+                }
+
             }
         };
         IntentFilter intFilt = new IntentFilter(Tab1Last.BROADCAST_ACTION);
         Objects.requireNonNull(getContext()).registerReceiver(br, intFilt);
-
         return inflater.inflate(R.layout.tab1last, container, false);
     }
 

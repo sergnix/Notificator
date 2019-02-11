@@ -10,10 +10,10 @@ import android.widget.EditText;
 
 public class Settings extends AppCompatActivity {
 
-    public SharedPreferences sPref;
+    public static SharedPreferences sPref;
     Button btnSave;
     EditText ed;
-    String numberForParse;
+    static String numberForParse;
     String text;
 
     @Override
@@ -46,7 +46,7 @@ public class Settings extends AppCompatActivity {
 
     }
 
-    public boolean checkNumber(String string, Context context) {
+    public static boolean checkNumber(String string, Context context) {
         sPref = context.getSharedPreferences("numberparse", MODE_PRIVATE);
         numberForParse = sPref.getString("numberparse", "");
         return numberForParse.contains(string);

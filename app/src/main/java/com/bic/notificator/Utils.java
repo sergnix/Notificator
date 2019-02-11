@@ -46,12 +46,11 @@ class Utils {
         ContentResolver cr = context.getContentResolver();
         int totalSMS = 0;
         Cursor c = cr.query(Telephony.Sms.CONTENT_URI, null, null, null, null);
-        Settings settings = new Settings();
         if (c != null) {
             totalSMS = c.getCount();
             if (c.moveToFirst()) {
                 for (int j = 0; j < totalSMS; j++) {
-                    if (settings.checkNumber(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS)), context) && isDateBetween(Long.parseLong(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.DATE))))) {
+                    if (Settings.checkNumber(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS)), context) && isDateBetween(Long.parseLong(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.DATE))))) {
                         smsList.add(new SMSData(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.BODY)), c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS)), c.getString(c.getColumnIndexOrThrow(Telephony.Sms.DATE))));
                     }
                     c.moveToNext();
@@ -62,13 +61,5 @@ class Utils {
             Toast.makeText(context, "No message to show!", Toast.LENGTH_SHORT).show();
         }
         return smsList;
-    }
-
-    private boolean checkDateSMS(Long date) {
-        Date currentTime = Calendar.getInstance().getTime();
-        Date datesms = new Date();
-        datesms.setTime(date);
-
-        return !(currentTime.before(datesms) || currentTime.after(datesms));
     }
 }

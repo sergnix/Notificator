@@ -7,8 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 
-import java.util.ArrayList;
-
 public class SMSReceiver extends BroadcastReceiver {
 
     public static final String pdu_type = "pdus";

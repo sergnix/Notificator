@@ -1,13 +1,13 @@
 package com.bic.notificator;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
+
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.map.CameraPosition;
-
 import com.yandex.mapkit.mapview.MapView;
 
 /**

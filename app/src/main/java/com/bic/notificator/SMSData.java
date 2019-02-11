@@ -6,14 +6,11 @@ import java.util.List;
 
 public class SMSData {
 
-    ArrayList listsms;
-    private String datesms;
-    public String getBody() {
-        return body;
-    }
     public String body;
-    private String phone;
+    ArrayList listsms;
     List<String> data;
+    private String datesms;
+    private String phone;
     private String Lac;
     private String Cid;
     private String Mcc;
@@ -21,7 +18,6 @@ public class SMSData {
     private String Address;
     private String lont;
     private String lat;
-
     SMSData(String body, String phone, String datesms) {
         this.body = body;
         this.data = Arrays.asList(body.split("\\$"));
@@ -29,64 +25,72 @@ public class SMSData {
         this.datesms = datesms;
     }
 
+    public String getBody() {
+        return body;
+    }
+
     public String getPhone() {
         return phone;
     }
 
-    public String getCid() { return data.get(6); }
-
-    public String getLac() {
-        return data.get(5);
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public String getMcc() {
-        return data.get(3);
-    }
-
-    public String getMns() {
-        return data.get(4);
-    }
-
-    public String getAddress() {
-        return data.get(8);
-    }
-
-    public String getLat() {
-        return data.get(10);
-    }
-
-    public String getLont() { return data.get(10); }
-
-    public void setLont(String lont) {
-        this.lont = lont;
-    }
-
-    public void setLat(String lat) {
-        this.lat = lat;
-    }
-
-    public void setLac(String lac) {
-        Lac = lac;
+    public String getCid() {
+        return data.get(6);
     }
 
     public void setCid(String cid) {
         Cid = cid;
     }
 
+    public String getLac() {
+        return data.get(5);
+    }
+
+    public void setLac(String lac) {
+        Lac = lac;
+    }
+
+    public String getMcc() {
+        return data.get(3);
+    }
+
     public void setMcc(String mcc) {
         Mcc = mcc;
+    }
+
+    public String getMns() {
+        return data.get(4);
     }
 
     public void setMns(String mns) {
         Mns = mns;
     }
 
+    public String getAddress() {
+        return data.get(8);
+    }
+
     public void setAddress(String address) {
         Address = address;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public String getLat() {
+        return data.get(10);
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLont() {
+        return data.get(10);
+    }
+
+    public void setLont(String lont) {
+        this.lont = lont;
     }
 
 }

@@ -2,16 +2,16 @@ package com.bic.notificator;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 public class Settings extends AppCompatActivity {
 
-    Button btnSave;
     public SharedPreferences sPref;
+    Button btnSave;
     EditText ed;
     String numberForParse;
     String text;

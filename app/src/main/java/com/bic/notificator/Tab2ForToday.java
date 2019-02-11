@@ -18,11 +18,9 @@ import java.util.Objects;
 
 public class Tab2ForToday extends Fragment {
 
+    public ArrayList<SMSData> listsms;
     ListView messageList;
     ArrayAdapter<SMSData> adapter;
-
-    public ArrayList<SMSData> listsms;
-
     BroadcastReceiver br;
 
     @Override

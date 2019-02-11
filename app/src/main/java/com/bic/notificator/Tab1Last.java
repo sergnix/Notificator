@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -32,6 +31,8 @@ import java.util.Objects;
 
 public class Tab1Last extends Fragment {
 
+    public static final String BROADCAST_ACTION = "tabs_renew";
+    public ArrayList<SMSData> listsms;
     TextView phoneNumber;
     TextView lac;
     TextView cid;
@@ -42,14 +43,12 @@ public class Tab1Last extends Fragment {
     List<String> SMSBodyItem;
     Button btn;
     BroadcastReceiver br;
-    public ArrayList<SMSData> listsms;
-    public static final String BROADCAST_ACTION = "tabs_renew";
 
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         MapKitFactory.setApiKey("5dd517ed-ca71-4d05-b644-58b979f0d724");
 
-        br = new SMSReceiver(){
+        br = new SMSReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 sendNotification("Получены новые данные о БС", "");

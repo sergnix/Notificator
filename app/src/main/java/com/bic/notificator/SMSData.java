@@ -93,5 +93,4 @@ public class SMSData {
     public void setLont(String lont) {
         this.lont = lont;
     }
-
 }

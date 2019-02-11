@@ -24,6 +24,4 @@ class Map {
     Double getLatt() {
         return Double.valueOf(latt);
     }
-
-
 }

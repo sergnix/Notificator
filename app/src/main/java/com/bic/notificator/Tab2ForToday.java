@@ -7,11 +7,13 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -48,13 +50,26 @@ public class Tab2ForToday extends Fragment {
     public View renderFragment(View rootView) {
         messageList = (ListView) rootView.findViewById(R.id.listsms);
         fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-
         Utils util = new Utils();
+
+        messageList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SparseBooleanArray sp = messageList.getCheckedItemPositions();
+
+                String selectedItems = "";
+                for (int i = 0; i < listsms.size(); i++) {
+                    if (sp.get(i))
+                        selectedItems += 1;
+                }
+                Log.d("DEBUG1", selectedItems);
+                fab.show();
+            }
+        });
         listsms = util.getAllSms(rootView.getContext());
         adapter = new SMSListAdapter(this.getContext(), R.layout.sms_list_item, listsms);
         messageList.setAdapter(adapter);
 
-        fab.show();
 
         return rootView;
     }

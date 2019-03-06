@@ -18,12 +18,21 @@ public class SMSData {
     private String Address;
     private String lont;
     private String lat;
+    private String Tpar;
 
     SMSData(String body, String phone, String datesms) {
         this.body = body;
         this.data = Arrays.asList(body.split("\\$"));
         this.phone = phone;
         this.datesms = datesms;
+    }
+
+    public String getTpar() {
+        return data.get(0);
+    }
+
+    public void setTpar(String tpar) {
+        Tpar = tpar;
     }
 
     public String getBody() {

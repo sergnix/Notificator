@@ -28,7 +28,7 @@ public class SMSListAdapter extends ArrayAdapter<SMSData> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = this.inflater.inflate(this.resource, parent, false);
 
-        TextView phoneNumber = (TextView) view.findViewById(R.id.phone);
+        TextView tpar = (TextView) view.findViewById(R.id.tpar);
         TextView number = (TextView) view.findViewById(R.id.number);
         TextView lac = (TextView) view.findViewById(R.id.lac);
         TextView cid = (TextView) view.findViewById(R.id.cid);
@@ -37,7 +37,7 @@ public class SMSListAdapter extends ArrayAdapter<SMSData> {
 
         SMSData msg = this.data.get(position);
 
-        phoneNumber.setText("Телефонный номер: " + msg.getPhone());
+        tpar.setText(msg.getTpar());
         number.setText(String.valueOf(position + 1));
         lac.setText(msg.getLac());
         cid.setText(msg.getCid());

@@ -7,16 +7,23 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.support.v4.app.NotificationCompat;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKitFactory;
@@ -29,19 +36,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class Tab1Last extends Fragment {
+public class Tab1Last extends ListFragment {
 
     public static final String BROADCAST_ACTION = "tabs_renew";
     public ArrayList<SMSData> listsms;
-    TextView phoneNumber;
-    TextView lac;
-    TextView cid;
-    TextView mcc;
-    TextView mns;
-    TextView address;
-    MapView mapview;
-    List<String> SMSBodyItem;
-    Button btn;
+    ListView messageList;
+    ArrayAdapter<SMSData> adapter;
+    FloatingActionButton fab;
     BroadcastReceiver br;
 
     @Override
@@ -54,15 +55,14 @@ public class Tab1Last extends Fragment {
                 Boolean isTrulySMS = intent.getBooleanExtra("isTrulySMS", false);
                 if (isTrulySMS) {
                     sendNotification("Получены новые данные о БС", "");
-                    mapview.onStop();
-                    MapKitFactory.getInstance().onStop();
+//                    MapKitFactory.getInstance().onStop();
                     onResume();
                 }
             }
         };
         IntentFilter intFilt = new IntentFilter(Tab1Last.BROADCAST_ACTION);
         Objects.requireNonNull(getContext()).registerReceiver(br, intFilt);
-        return inflater.inflate(R.layout.tab1last, container, false);
+        return renderFragment(inflater.inflate(R.layout.tab1last, container, false));
     }
 
     @Override
@@ -71,57 +71,52 @@ public class Tab1Last extends Fragment {
         renderFragment(Objects.requireNonNull(getView()));
     }
 
-    public void renderFragment(final View rootView) {
-        phoneNumber = (TextView) rootView.findViewById(R.id.phone);
-        lac = (TextView) rootView.findViewById(R.id.lac);
-        cid = (TextView) rootView.findViewById(R.id.cid);
-        mcc = (TextView) rootView.findViewById(R.id.mcc);
-        mns = (TextView) rootView.findViewById(R.id.mns);
-        address = (TextView) rootView.findViewById(R.id.address);
-        btn = (Button) rootView.findViewById(R.id.showmap);
-        mapview = (MapView) rootView.findViewById(R.id.mapview);
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        SMSData selectedSMS = ((SMSData) l.getItemAtPosition(position));
+        StringBuilder prompt = new StringBuilder("Вы выбрали " + selectedSMS.getTpar() + "\n");
+        prompt.append("Выбранные элементы: \n");
+        int count = getListView().getCount();
+        SparseBooleanArray sparseBooleanArray = getListView().getCheckedItemPositions();
+        for (int i = 0; i < count; i++) {
+            if (sparseBooleanArray.get(i)) {
+                prompt.append(((SMSData) l.getItemAtPosition(i)).getTpar()).append("\n");
+            }
+        }
+        fab.show();
+        Toast.makeText(getActivity(), prompt.toString(), Toast.LENGTH_LONG).show();
+    }
+
+    public View renderFragment(final View rootView) {
+        messageList = (ListView) rootView.findViewById(android.R.id.list);
+        messageList.setBackgroundColor(Color.WHITE);
+        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        fab.hide();
 
         Utils util = new Utils();
+
+//        messageList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+////            @Override
+////            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+////                SparseBooleanArray sp = messageList.getCheckedItemPositions();
+////
+////                StringBuilder selectedItems = new StringBuilder();
+////                for (int i = 0; i < listsms.size(); i++) {
+////                    if (sp.get(i))
+////                        selectedItems.append(1);
+////                }
+////                Log.d("DEBUG1", String.valueOf(selectedItems.length()));
+////                fab.show();
+////            }
+////        });
+
+
         listsms = util.getAllSms(rootView.getContext());
+        adapter = new SMSListAdapter(this.getContext(), R.layout.sms_list_item, listsms);
+        messageList.setAdapter(adapter);
 
-        if (listsms.isEmpty()) {
-            lac.setText("");
-            cid.setText("");
-            mcc.setText("");
-            mns.setText("");
-            address.setText("");
-            return;
-        } else {
-            SMSBodyItem = Arrays.asList(listsms.get(0).getBody().split("\\$"));
-
-            lac.setText((String) SMSBodyItem.get(5));
-            cid.setText((String) SMSBodyItem.get(6));
-            mcc.setText((String) SMSBodyItem.get(3));
-            mns.setText((String) SMSBodyItem.get(4));
-            address.setText((String) SMSBodyItem.get(8));
-
-            final Map map = new Map(String.valueOf(SMSBodyItem.get(10)));
-
-            final Point pointOnMap = new Point(map.getLon(), map.getLatt());
-
-            mapview.getMap().move(
-                    new CameraPosition(pointOnMap, 11.0f, 0.0f, 0.0f),
-                    new Animation(Animation.Type.SMOOTH, 0),
-                    null);
-            mapview.getMap().getMapObjects().addPlacemark(pointOnMap);
-            MapKitFactory.initialize(this.requireContext());
-            MapKitFactory.getInstance().onStart();
-            mapview.onStart();
-        }
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intention = new Intent(rootView.getContext(), MapViewActivity.class);
-                intention.putExtra("raw", String.valueOf(SMSBodyItem.get(10)));
-                startActivity(intention);
-            }
-        });
+        return rootView;
 
     }
 

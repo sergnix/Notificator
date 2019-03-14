@@ -31,7 +31,6 @@ public class Tab2ForToday extends ListFragment {
     BroadcastReceiver br;
     FloatingActionButton fab;
     int backgroundColor;
-    List<String> listssss;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -57,18 +56,15 @@ public class Tab2ForToday extends ListFragment {
         super.onListItemClick(l, v, position, id);
         SMSData selectedSMS = ((SMSData) l.getItemAtPosition(position));
         StringBuilder prompt = new StringBuilder("Вы выбрали " + selectedSMS.getTpar() + "\n");
-        listssss = new ArrayList<>();
         prompt.append("Выбранные элементы: \n");
         int count = getListView().getCount();
         SparseBooleanArray sparseBooleanArray = getListView().getCheckedItemPositions();
         for (int i = 0; i < count; i++) {
             if (sparseBooleanArray.get(i)) {
                 prompt.append(((SMSData) l.getItemAtPosition(i)).getTpar()).append("\n");
-                listssss.add(((SMSData) l.getItemAtPosition(i)).getTpar());
             }
         }
-        listssss.sort(Comparator.<String>naturalOrder());
-        Toast.makeText(getActivity(), listssss.toString(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), prompt.toString(), Toast.LENGTH_LONG).show();
     }
 
     public View renderFragment(View rootView) {
@@ -98,7 +94,6 @@ public class Tab2ForToday extends ListFragment {
         adapter = new SMSListAdapter(this.getContext(), R.layout.sms_list_item, listsms);
         listsms.sort(new BodyComparator());
         messageList.setAdapter(adapter);
-
 
         return rootView;
     }

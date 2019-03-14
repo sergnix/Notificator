@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">BSNotificator</string>
-    <string name="tab_text_1">Последнее</string>
-    <string name="tab_text_2">За сегодня</string>
+    <string name="tab_text_1">По хронологии</string>
+    <string name="tab_text_2">По абоненту</string>
     <string name="action_settings">Настройки</string>
     <string name="exit">Выход</string>
     <string name="section_format">Hello World from section: %1$d</string>

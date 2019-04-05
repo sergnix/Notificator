@@ -16,8 +16,7 @@ public class SMSData {
     private String Mcc;
     private String Mns;
     private String Address;
-    private String lont;
-    private String lat;
+    private String Coord;
     private String Tpar;
 
     SMSData(String body, String phone, String datesms) {
@@ -87,19 +86,7 @@ public class SMSData {
         Address = address;
     }
 
-    public String getLat() {
+    public String getCoord() {
         return data.get(10);
-    }
-
-    public void setLat(String lat) {
-        this.lat = lat;
-    }
-
-    public String getLont() {
-        return data.get(10);
-    }
-
-    public void setLont(String lont) {
-        this.lont = lont;
     }
 }

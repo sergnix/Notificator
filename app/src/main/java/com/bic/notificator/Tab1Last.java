@@ -19,8 +19,10 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,8 +44,10 @@ public class Tab1Last extends ListFragment {
     public ArrayList<SMSData> listsms;
     ListView messageList;
     ArrayAdapter<SMSData> adapter;
-    FloatingActionButton fab;
     BroadcastReceiver br;
+    FloatingActionButton fab;
+    Integer col_selected;
+    CheckBox checkBox;
 
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -52,7 +56,7 @@ public class Tab1Last extends ListFragment {
         br = new SMSReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Boolean isTrulySMS = intent.getBooleanExtra("isTrulySMS", false);
+                boolean isTrulySMS = intent.getBooleanExtra("isTrulySMS", false);
                 if (isTrulySMS) {
                     sendNotification("Получены новые данные о БС", "");
 //                    MapKitFactory.getInstance().onStop();
@@ -71,45 +75,57 @@ public class Tab1Last extends ListFragment {
         renderFragment(Objects.requireNonNull(getView()));
     }
 
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-        SMSData selectedSMS = ((SMSData) l.getItemAtPosition(position));
-        StringBuilder prompt = new StringBuilder("Вы выбрали " + selectedSMS.getTpar() + "\n");
-        prompt.append("Выбранные элементы: \n");
-        int count = getListView().getCount();
-        SparseBooleanArray sparseBooleanArray = getListView().getCheckedItemPositions();
-        for (int i = 0; i < count; i++) {
-            if (sparseBooleanArray.get(i)) {
-                prompt.append(((SMSData) l.getItemAtPosition(i)).getTpar()).append("\n");
-            }
-        }
-        fab.show();
-        Toast.makeText(getActivity(), prompt.toString(), Toast.LENGTH_LONG).show();
-    }
-
     public View renderFragment(final View rootView) {
         messageList = (ListView) rootView.findViewById(android.R.id.list);
         messageList.setBackgroundColor(Color.WHITE);
-        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        fab.hide();
 
         Utils util = new Utils();
 
-//        messageList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-////            @Override
-////            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-////                SparseBooleanArray sp = messageList.getCheckedItemPositions();
-////
-////                StringBuilder selectedItems = new StringBuilder();
-////                for (int i = 0; i < listsms.size(); i++) {
-////                    if (sp.get(i))
-////                        selectedItems.append(1);
-////                }
-////                Log.d("DEBUG1", String.valueOf(selectedItems.length()));
-////                fab.show();
-////            }
-////        });
+        messageList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                SMSData selectedSMS = ((SMSData) parent.getItemAtPosition(position));
+                Intent intention = new Intent(getContext(), MapViewActivity.class);
+
+//                StringBuilder prompt = new StringBuilder("Вы выбрали " + selectedSMS.getTpar() + "\n");
+//                prompt.append("Выбранные элементы: \n");
+                int count = getListView().getCount();
+                SparseBooleanArray sparseBooleanArray = getListView().getCheckedItemPositions();
+                col_selected = 0;
+                for (int i = 0; i < count; i++) {
+                    if (sparseBooleanArray.get(i)) {
+//                prompt.append(((SMSData) l.getItemAtPosition(i)).getTpar()).append("\n");
+                        if (!((SMSData) parent.getItemAtPosition(i)).getCoord().isEmpty()) {
+                            intention.putExtra("sms_checked_item_coord" + col_selected , ((SMSData) parent.getItemAtPosition(i)).getCoord());
+                            col_selected =+ 1;
+                        }
+                    }
+                }
+//                Toast.makeText(getActivity(), prompt.toString(), Toast.LENGTH_LONG).show();
+                fab = (FloatingActionButton) Objects.requireNonNull(getActivity()).findViewById(R.id.fab);
+                fab.show();
+
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+//                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//                intention.putExtra("raw", String.valueOf(SMSBodyItem.get(10)));
+//                intention.putExtra("sms_checked", bundle);
+                        startActivity(intention);
+                    }
+                });
+
+
+                checkBox = view.findViewById(R.id.checkbox);
+                if (!checkBox.isChecked()) {
+                    checkBox.setChecked(true);
+                } else {
+                    checkBox.setChecked(false);
+                }
+            }
+        });
 
 
         listsms = util.getAllSms(rootView.getContext());
@@ -151,4 +167,5 @@ public class Tab1Last extends ListFragment {
             notificationManager.createNotificationChannel(channel);
         }
     }
+
 }

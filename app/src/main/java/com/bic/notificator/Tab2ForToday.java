@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -29,8 +30,8 @@ public class Tab2ForToday extends ListFragment {
     ListView messageList;
     ArrayAdapter<SMSData> adapter;
     BroadcastReceiver br;
-    FloatingActionButton fab;
     int backgroundColor;
+    CheckBox checkBox;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -67,10 +68,11 @@ public class Tab2ForToday extends ListFragment {
         Toast.makeText(getActivity(), prompt.toString(), Toast.LENGTH_LONG).show();
     }
 
+
+
     public View renderFragment(View rootView) {
         messageList = (ListView) rootView.findViewById(android.R.id.list);
         messageList.setBackgroundColor(Color.WHITE);
-        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
 
         Utils util = new Utils();
 

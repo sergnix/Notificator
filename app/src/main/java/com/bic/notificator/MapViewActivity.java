@@ -10,6 +10,12 @@ import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.map.CameraPosition;
 import com.yandex.mapkit.mapview.MapView;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
 /**
  * This is a basic example that displays a map and sets camera focus on the target location.
  * Note: When working on your projects, remember to request the required permissions.
@@ -21,7 +27,7 @@ public class MapViewActivity extends Activity {
      */
     private final String MAPKIT_API_KEY = "5dd517ed-ca71-4d05-b644-58b979f0d724";
 
-    private MapView mapView;
+    MapView mapView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,20 +50,24 @@ public class MapViewActivity extends Activity {
 
         Intent intention = getIntent();
 
-        String raw = intention.getStringExtra("raw");
+        Bundle raw = intention.getExtras();
 
-        Map map = new Map(raw);
+        for (int i = 0; i < Objects.requireNonNull(raw).size(); i++) {
+            Map map = new Map(Objects.requireNonNull(raw.getString("sms_checked_item_coord" + i)));
+            Point point = new Point(map.getLon(), map.getLatt());
+//            mapView.getMap().move(
+//               new CameraPosition(point, 14.0f, 0.0f, 0.0f),
+//               new Animation(Animation.Type.SMOOTH, 0), null);
+            mapView.getMap().getMapObjects().addPlacemark(point);
 
-        Point point = new Point(map.getLon(), map.getLatt());
-
+        }
         // And to show what can be done with it, we move the camera to the center of Saint Petersburg.
-        mapView.getMap().move(
-                new CameraPosition(point, 14.0f, 0.0f, 0.0f),
-                new Animation(Animation.Type.SMOOTH, 0), null);
-        mapView.getMap().getMapObjects().addPlacemark(point);
+//        mapView.getMap().move(
+//                new CameraPosition(point, 14.0f, 0.0f, 0.0f),
+//                new Animation(Animation.Type.SMOOTH, 0), null);
+
 
     }
-
     @Override
     protected void onStop() {
         // Activity onStop call must be passed to both MapView and MapKit instance.

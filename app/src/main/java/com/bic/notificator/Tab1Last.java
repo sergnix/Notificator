@@ -48,6 +48,7 @@ public class Tab1Last extends ListFragment {
     FloatingActionButton fab;
     Integer col_selected;
     CheckBox checkBox;
+    Integer h;
 
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -76,6 +77,8 @@ public class Tab1Last extends ListFragment {
     }
 
     public View renderFragment(final View rootView) {
+        fab = (FloatingActionButton) Objects.requireNonNull(getActivity()).findViewById(R.id.fab);
+
         messageList = (ListView) rootView.findViewById(android.R.id.list);
         messageList.setBackgroundColor(Color.WHITE);
 
@@ -92,6 +95,7 @@ public class Tab1Last extends ListFragment {
 //                prompt.append("Выбранные элементы: \n");
                 int count = getListView().getCount();
                 SparseBooleanArray sparseBooleanArray = getListView().getCheckedItemPositions();
+
                 col_selected = 0;
                 for (int i = 0; i < count; i++) {
                     if (sparseBooleanArray.get(i)) {
@@ -99,12 +103,18 @@ public class Tab1Last extends ListFragment {
                         if (!((SMSData) parent.getItemAtPosition(i)).getCoord().isEmpty()) {
                             intention.putExtra("sms_checked_item_coord" + col_selected , ((SMSData) parent.getItemAtPosition(i)).getCoord());
                             col_selected =+ 1;
+                            fab.show();
                         }
                     }
                 }
+
+//                for (int j = 0; j < sparseBooleanArray.size(); j++) {
+//                    if (!sparseBooleanArray.get(j)) {
+//                        fab.hide();
+//                    }
+//                }
 //                Toast.makeText(getActivity(), prompt.toString(), Toast.LENGTH_LONG).show();
-                fab = (FloatingActionButton) Objects.requireNonNull(getActivity()).findViewById(R.id.fab);
-                fab.show();
+
 
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override

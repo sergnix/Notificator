@@ -12,42 +12,30 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.NotificationCompat;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKitFactory;
-import com.yandex.mapkit.geometry.Point;
-import com.yandex.mapkit.map.CameraPosition;
-import com.yandex.mapkit.mapview.MapView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 public class Tab1Last extends ListFragment {
 
     public static final String BROADCAST_ACTION = "tabs_renew";
     public ArrayList<SMSData> listsms;
+    public int col_selected;
     ListView messageList;
     ArrayAdapter<SMSData> adapter;
     BroadcastReceiver br;
     FloatingActionButton fab;
-    public int col_selected;
     CheckBox checkBox;
 
     @Override
@@ -108,7 +96,7 @@ public class Tab1Last extends ListFragment {
                 for (int i = 0; i < countAllListItems; i++) {
                     if (sparseBooleanArray.get(i)) {
                         if (!((SMSData) parent.getItemAtPosition(i)).getCoord().isEmpty()) {
-                            intention.putExtra("sms_checked_item_coord" + col_selected , ((SMSData) parent.getItemAtPosition(i)).getCoord());
+                            intention.putExtra("sms_checked_item_coord" + col_selected, ((SMSData) parent.getItemAtPosition(i)).getCoord());
                             col_selected++;
                         }
                     }

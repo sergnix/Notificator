@@ -13,16 +13,12 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Objects;
 
 public class Tab2ForToday extends ListFragment {
@@ -83,7 +79,7 @@ public class Tab2ForToday extends ListFragment {
                 for (int i = 0; i < countAllListItems; i++) {
                     if (sparseBooleanArray.get(i)) {
                         if (!((SMSData) parent.getItemAtPosition(i)).getCoord().isEmpty()) {
-                            intention.putExtra("sms_checked_item_coord" + col_selected , ((SMSData) parent.getItemAtPosition(i)).getCoord());
+                            intention.putExtra("sms_checked_item_coord" + col_selected, ((SMSData) parent.getItemAtPosition(i)).getCoord());
                             col_selected++;
                         }
                     }
@@ -108,11 +104,13 @@ public class Tab2ForToday extends ListFragment {
 
         return rootView;
     }
+
     static class BodyComparator implements Comparator<SMSData> {
         @Override
         public int compare(SMSData o1, SMSData o2) {
             return getNumber(o1.getTpar()).compareTo(getNumber(o2.getTpar()));
         }
+
         private Integer getNumber(String tpar) {
             return Integer.parseInt(tpar.substring(2));
         }

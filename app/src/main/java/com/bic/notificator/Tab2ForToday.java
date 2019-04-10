@@ -47,6 +47,7 @@ public class Tab2ForToday extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
+        fab.hide();
         renderFragment(Objects.requireNonNull(getView()));
     }
 

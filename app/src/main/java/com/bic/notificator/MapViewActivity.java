@@ -9,6 +9,7 @@ import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.map.CameraPosition;
 import com.yandex.mapkit.mapview.MapView;
+import com.yandex.runtime.image.ImageProvider;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -43,7 +44,6 @@ public class MapViewActivity extends Activity {
          * Initializing in the Application.onCreate method may lead to extra calls and increased battery use.
          */
         MapKitFactory.initialize(this);
-        // Now MapView can be created.
         setContentView(R.layout.activity_map);
         super.onCreate(savedInstanceState);
         mapView = (MapView) findViewById(R.id.mapview);
@@ -55,10 +55,7 @@ public class MapViewActivity extends Activity {
         for (int i = 0; i < Objects.requireNonNull(raw).size(); i++) {
             Map map = new Map(Objects.requireNonNull(raw.getString("sms_checked_item_coord" + i)));
             Point point = new Point(map.getLon(), map.getLatt());
-//            mapView.getMap().move(
-//               new CameraPosition(point, 14.0f, 0.0f, 0.0f),
-//               new Animation(Animation.Type.SMOOTH, 0), null);
-            mapView.getMap().getMapObjects().addPlacemark(point);
+            mapView.getMap().getMapObjects().addPlacemark(point, ImageProvider.fromResource(getApplicationContext(), R.drawable.signal));
 
         }
         // And to show what can be done with it, we move the camera to the center of Saint Petersburg.

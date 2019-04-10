@@ -40,7 +40,6 @@ public class Tab1Last extends ListFragment {
 
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        MapKitFactory.setApiKey("5dd517ed-ca71-4d05-b644-58b979f0d724");
 
         br = new SMSReceiver() {
             @Override

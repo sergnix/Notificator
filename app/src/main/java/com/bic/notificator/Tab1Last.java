@@ -33,6 +33,7 @@ import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.map.CameraPosition;
 import com.yandex.mapkit.mapview.MapView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -46,9 +47,8 @@ public class Tab1Last extends ListFragment {
     ArrayAdapter<SMSData> adapter;
     BroadcastReceiver br;
     FloatingActionButton fab;
-    Integer col_selected;
+    public int col_selected;
     CheckBox checkBox;
-    Integer h;
 
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -73,6 +73,7 @@ public class Tab1Last extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
+        fab.hide();
         renderFragment(Objects.requireNonNull(getView()));
     }
 
@@ -84,56 +85,43 @@ public class Tab1Last extends ListFragment {
 
         Utils util = new Utils();
 
-        messageList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        messageList.setOnItemClickListener((parent, view, position, id) -> {
 
-                SMSData selectedSMS = ((SMSData) parent.getItemAtPosition(position));
-                Intent intention = new Intent(getContext(), MapViewActivity.class);
+            Intent intention = new Intent(getContext(), MapViewActivity.class);
 
-//                StringBuilder prompt = new StringBuilder("Вы выбрали " + selectedSMS.getTpar() + "\n");
-//                prompt.append("Выбранные элементы: \n");
-                int count = getListView().getCount();
-                SparseBooleanArray sparseBooleanArray = getListView().getCheckedItemPositions();
+            int countAllListItems = getListView().getCount();
 
-                col_selected = 0;
-                for (int i = 0; i < count; i++) {
+            SparseBooleanArray sparseBooleanArray = getListView().getCheckedItemPositions();
+
+            int countChecked = getListView().getCheckedItemCount();
+
+            fab.show();
+
+            if (countChecked == 0) {
+                fab.hide();
+            }
+
+            col_selected = 0;
+
+            fab.setOnClickListener(view1 -> {
+
+                for (int i = 0; i < countAllListItems; i++) {
                     if (sparseBooleanArray.get(i)) {
-//                prompt.append(((SMSData) l.getItemAtPosition(i)).getTpar()).append("\n");
                         if (!((SMSData) parent.getItemAtPosition(i)).getCoord().isEmpty()) {
                             intention.putExtra("sms_checked_item_coord" + col_selected , ((SMSData) parent.getItemAtPosition(i)).getCoord());
-                            col_selected =+ 1;
-                            fab.show();
+                            col_selected++;
                         }
                     }
                 }
-
-//                for (int j = 0; j < sparseBooleanArray.size(); j++) {
-//                    if (!sparseBooleanArray.get(j)) {
-//                        fab.hide();
-//                    }
-//                }
-//                Toast.makeText(getActivity(), prompt.toString(), Toast.LENGTH_LONG).show();
+                startActivity(intention);
+            });
 
 
-                fab.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-//                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//                intention.putExtra("raw", String.valueOf(SMSBodyItem.get(10)));
-//                intention.putExtra("sms_checked", bundle);
-                        startActivity(intention);
-                    }
-                });
-
-
-                checkBox = view.findViewById(R.id.checkbox);
-                if (!checkBox.isChecked()) {
-                    checkBox.setChecked(true);
-                } else {
-                    checkBox.setChecked(false);
-                }
+            checkBox = view.findViewById(R.id.checkbox);
+            if (!checkBox.isChecked()) {
+                checkBox.setChecked(true);
+            } else {
+                checkBox.setChecked(false);
             }
         });
 

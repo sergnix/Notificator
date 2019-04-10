@@ -71,9 +71,10 @@ public class MapViewActivity extends Activity {
     @Override
     protected void onStop() {
         // Activity onStop call must be passed to both MapView and MapKit instance.
+        super.onStop();
         mapView.onStop();
         MapKitFactory.getInstance().onStop();
-        super.onStop();
+        super.onDestroy();
     }
 
     @Override

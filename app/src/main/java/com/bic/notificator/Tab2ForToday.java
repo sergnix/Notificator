@@ -13,6 +13,7 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -30,7 +31,8 @@ public class Tab2ForToday extends ListFragment {
     ListView messageList;
     ArrayAdapter<SMSData> adapter;
     BroadcastReceiver br;
-    int backgroundColor;
+    FloatingActionButton fab;
+    Integer col_selected;
     CheckBox checkBox;
 
     @Override
@@ -52,45 +54,52 @@ public class Tab2ForToday extends ListFragment {
         renderFragment(Objects.requireNonNull(getView()));
     }
 
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-        SMSData selectedSMS = ((SMSData) l.getItemAtPosition(position));
-        StringBuilder prompt = new StringBuilder("Вы выбрали " + selectedSMS.getTpar() + "\n");
-        prompt.append("Выбранные элементы: \n");
-        int count = getListView().getCount();
-        SparseBooleanArray sparseBooleanArray = getListView().getCheckedItemPositions();
-        for (int i = 0; i < count; i++) {
-            if (sparseBooleanArray.get(i)) {
-                prompt.append(((SMSData) l.getItemAtPosition(i)).getTpar()).append("\n");
-            }
-        }
-        Toast.makeText(getActivity(), prompt.toString(), Toast.LENGTH_LONG).show();
-    }
-
-
-
     public View renderFragment(View rootView) {
+
+        fab = (FloatingActionButton) Objects.requireNonNull(getActivity()).findViewById(R.id.fab);
+
         messageList = (ListView) rootView.findViewById(android.R.id.list);
         messageList.setBackgroundColor(Color.WHITE);
 
+        messageList.setOnItemClickListener((parent, view, position, id) -> {
+            Intent intention = new Intent(getContext(), MapViewActivity.class);
+
+            int countAllListItems = getListView().getCount();
+
+            SparseBooleanArray sparseBooleanArray = getListView().getCheckedItemPositions();
+
+            int countChecked = getListView().getCheckedItemCount();
+
+            fab.show();
+
+            if (countChecked == 0) {
+                fab.hide();
+            }
+
+            col_selected = 0;
+
+            fab.setOnClickListener(view1 -> {
+
+                for (int i = 0; i < countAllListItems; i++) {
+                    if (sparseBooleanArray.get(i)) {
+                        if (!((SMSData) parent.getItemAtPosition(i)).getCoord().isEmpty()) {
+                            intention.putExtra("sms_checked_item_coord" + col_selected , ((SMSData) parent.getItemAtPosition(i)).getCoord());
+                            col_selected++;
+                        }
+                    }
+                }
+                startActivity(intention);
+            });
+
+            checkBox = view.findViewById(R.id.checkbox);
+            if (!checkBox.isChecked()) {
+                checkBox.setChecked(true);
+            } else {
+                checkBox.setChecked(false);
+            }
+        });
+
         Utils util = new Utils();
-
-//        messageList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-////            @Override
-////            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-////                SparseBooleanArray sp = messageList.getCheckedItemPositions();
-////
-////                StringBuilder selectedItems = new StringBuilder();
-////                for (int i = 0; i < listsms.size(); i++) {
-////                    if (sp.get(i))
-////                        selectedItems.append(1);
-////                }
-////                Log.d("DEBUG1", String.valueOf(selectedItems.length()));
-////                fab.show();
-////            }
-////        });
-
 
         listsms = util.getAllSms(rootView.getContext());
         adapter = new SMSListAdapter(this.getContext(), R.layout.sms_list_item, listsms);

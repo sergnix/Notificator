@@ -18,7 +18,9 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 
 public class Tab2ForToday extends ListFragment {
@@ -62,7 +64,7 @@ public class Tab2ForToday extends ListFragment {
 
         listsms = util.getAllSms(rootView.getContext());
         adapter = new SMSListAdapter(this.getContext(), R.layout.sms_list_item, listsms);
-        listsms.sort(new BodyComparator());
+        Collections.sort(listsms, new BodyComparator());
         messageList.setAdapter(adapter);
 
         messageList.setOnItemClickListener((parent, view, position, id) -> {

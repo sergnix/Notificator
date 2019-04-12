@@ -112,11 +112,14 @@ public class Tab2ForToday extends ListFragment {
     static class BodyComparator implements Comparator<SMSData> {
         @Override
         public int compare(SMSData o1, SMSData o2) {
-            return getNumber(o1.getTpar()).compareTo(getNumber(o2.getTpar()));
+            if (!(o1.getTpar() == null) && !(o2.getTpar() == null)) {
+                return getNumber(o1.getTpar()).compareTo(getNumber(o2.getTpar()));
+            }
+            return -1;
         }
 
         private Integer getNumber(String tpar) {
-            return Integer.parseInt(tpar.substring(2));
+            return Integer.parseInt(tpar);
         }
     }
 }

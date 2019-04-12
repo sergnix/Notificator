@@ -31,7 +31,7 @@ public class SMSData {
     }
 
     public String getTpar() {
-        String patternTpar = "Т-(\\d{4})";
+        String patternTpar = "Т-(\\d{1,4})";
         Pattern pattern =  Pattern.compile(patternTpar);
         for (String item:data) {
             Matcher matcher = pattern.matcher(item);
@@ -39,11 +39,11 @@ public class SMSData {
                 return matcher.group(1);
             }
         }
-        return "Нет данных";
+        return null;
     }
 
     public String getCid() {
-        String patternCid = "CID=(\\d{4})";
+        String patternCid = "CID=(\\d{1,6})";
         Pattern pattern =  Pattern.compile(patternCid);
         for (String item:data) {
             Matcher matcher = pattern.matcher(item);
@@ -55,7 +55,7 @@ public class SMSData {
     }
 
     public String getLac() {
-        String patternLac = "LAC=(\\d{4})";
+        String patternLac = "LAC=(\\d{1,4})";
         Pattern pattern =  Pattern.compile(patternLac);
         for (String item:data) {
             Matcher matcher = pattern.matcher(item);
@@ -67,7 +67,7 @@ public class SMSData {
     }
 
     public String getMcc() {
-        String patternMcc = "MCC=(\\d{3})";
+        String patternMcc = "MCC=(\\d{1,3})";
         Pattern pattern =  Pattern.compile(patternMcc);
         for (String item:data) {
             Matcher matcher = pattern.matcher(item);
@@ -79,7 +79,7 @@ public class SMSData {
     }
 
     public String getMns() {
-        String patternMns = "MNC=(\\d)";
+        String patternMns = "MNC=(\\d{1,3})";
         Pattern pattern =  Pattern.compile(patternMns);
         for (String item:data) {
             Matcher matcher = pattern.matcher(item);

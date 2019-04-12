@@ -13,10 +13,10 @@ import java.util.ArrayList;
 
 public class SMSListAdapter extends ArrayAdapter<SMSData> {
 
+    CheckBox checkBox;
     private LayoutInflater inflater;
     private int resource;
     private ArrayList<SMSData> data;
-    CheckBox checkBox;
 
     SMSListAdapter(Context context, int resource, ArrayList<SMSData> data) {
         super(context, resource, data);
@@ -39,7 +39,11 @@ public class SMSListAdapter extends ArrayAdapter<SMSData> {
 
         SMSData msg = this.data.get(position);
 
-        tpar.setText("T-" + msg.getTpar());
+        if (msg.getTpar() == null) {
+            tpar.setText("-");
+        } else {
+            tpar.setText("T-" + msg.getTpar());
+        }
         lac.setText("LAC=" + msg.getLac());
         cid.setText("CID=" + msg.getCid());
         mcc.setText("MCC=" + msg.getMcc());

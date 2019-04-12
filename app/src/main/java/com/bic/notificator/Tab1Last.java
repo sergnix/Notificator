@@ -95,7 +95,7 @@ public class Tab1Last extends ListFragment {
 
                 for (int i = 0; i < countAllListItems; i++) {
                     if (sparseBooleanArray.get(i)) {
-                        if (!((SMSData) parent.getItemAtPosition(i)).getCoord().isEmpty()) {
+                        if (!(((SMSData) parent.getItemAtPosition(i)).getCoord() == null)) {
                             intention.putExtra("sms_checked_item_coord" + col_selected, ((SMSData) parent.getItemAtPosition(i)).getCoord());
                             col_selected++;
                         }

@@ -36,11 +36,11 @@ public class SMSListAdapter extends ArrayAdapter<SMSData> {
 
         SMSData msg = this.data.get(position);
 
-        tpar.setText(msg.getTpar());
-        lac.setText(msg.getLac());
-        cid.setText(msg.getCid());
-        mcc.setText(msg.getMcc());
-        mns.setText(msg.getMns());
+        tpar.setText("T-" + msg.getTpar());
+        lac.setText("LAC=" + msg.getLac());
+        cid.setText("CID=" + msg.getCid());
+        mcc.setText("MCC=" + msg.getMcc());
+        mns.setText("MNS=" + msg.getMns());
 
         return view;
     }

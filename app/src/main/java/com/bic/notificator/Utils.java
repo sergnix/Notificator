@@ -15,6 +15,7 @@ class Utils {
     private static boolean isDateBetween(Long date) {
         Calendar calInitial = setZeroHour(Calendar.getInstance().getTime());
         Calendar calFinal = setLastHout(Calendar.getInstance().getTime());
+
         Calendar calToday = Calendar.getInstance();
         Date datesms = new Date(date);
         calToday.setTime(datesms);

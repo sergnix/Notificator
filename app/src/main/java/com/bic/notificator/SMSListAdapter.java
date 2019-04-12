@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class SMSListAdapter extends ArrayAdapter<SMSData> {
     private LayoutInflater inflater;
     private int resource;
     private ArrayList<SMSData> data;
+    CheckBox checkBox;
 
     SMSListAdapter(Context context, int resource, ArrayList<SMSData> data) {
         super(context, resource, data);
@@ -33,6 +35,7 @@ public class SMSListAdapter extends ArrayAdapter<SMSData> {
         TextView cid = (TextView) view.findViewById(R.id.cid);
         TextView mcc = (TextView) view.findViewById(R.id.mcc);
         TextView mns = (TextView) view.findViewById(R.id.mns);
+        checkBox = view.findViewById(R.id.checkbox);
 
         SMSData msg = this.data.get(position);
 
@@ -41,6 +44,10 @@ public class SMSListAdapter extends ArrayAdapter<SMSData> {
         cid.setText("CID=" + msg.getCid());
         mcc.setText("MCC=" + msg.getMcc());
         mns.setText("MNS=" + msg.getMns());
+
+        if (msg.isCoord) {
+            checkBox.setVisibility(View.VISIBLE);
+        }
 
         return view;
     }

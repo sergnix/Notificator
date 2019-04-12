@@ -1,7 +1,5 @@
 package com.bic.notificator;
 
-import com.yandex.mapkit.geometry.Point;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,12 +20,14 @@ public class SMSData {
     public String Address;
     public String Coord;
     public String Tpar;
+    public boolean isCoord;
 
     SMSData(String body, String phone, String datesms) {
         this.body = body;
         this.data = Arrays.asList(body.split("\\$"));
         this.phone = phone;
         this.datesms = datesms;
+        getCoord();
     }
 
     public String getTpar() {
@@ -101,9 +101,11 @@ public class SMSData {
         for (String item:data) {
             Matcher matcher = pattern.matcher(item);
             if (matcher.find()) {
+                isCoord = true;
                 return matcher.group(0);
             }
         }
+        isCoord = false;
         return null;
     }
 }

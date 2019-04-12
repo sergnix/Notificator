@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,8 +21,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
-
-import com.yandex.mapkit.MapKitFactory;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -73,51 +70,50 @@ public class Tab1Last extends ListFragment {
 
         Utils util = new Utils();
 
-        messageList.setOnItemClickListener((parent, view, position, id) -> {
-
-            Intent intention = new Intent(getContext(), MapViewActivity.class);
-
-            int countAllListItems = getListView().getCount();
-
-            SparseBooleanArray sparseBooleanArray = getListView().getCheckedItemPositions();
-
-            int countChecked = getListView().getCheckedItemCount();
-
-            fab.show();
-
-            if (countChecked == 0) {
-                fab.hide();
-            }
-
-            col_selected = 0;
-
-            fab.setOnClickListener(view1 -> {
-
-                for (int i = 0; i < countAllListItems; i++) {
-                    if (sparseBooleanArray.get(i)) {
-                        if (!(((SMSData) parent.getItemAtPosition(i)).getCoord() == null)) {
-                            intention.putExtra("sms_checked_item_coord" + col_selected, ((SMSData) parent.getItemAtPosition(i)).getCoord());
-                            col_selected++;
-                        }
-                    }
-                }
-                startActivity(intention);
-            });
-
-
-            checkBox = view.findViewById(R.id.checkbox);
-            if (!checkBox.isChecked()) {
-                checkBox.setChecked(true);
-            } else {
-                checkBox.setChecked(false);
-            }
-        });
-
-
         listsms = util.getAllSms(rootView.getContext());
         adapter = new SMSListAdapter(this.getContext(), R.layout.sms_list_item, listsms);
         messageList.setAdapter(adapter);
 
+        messageList.setOnItemClickListener((parent, view, position, id) -> {
+            if (listsms.get(position).isCoord) {
+                Intent intention = new Intent(getContext(), MapViewActivity.class);
+
+                int countAllListItems = getListView().getCount();
+
+                SparseBooleanArray sparseBooleanArray = getListView().getCheckedItemPositions();
+
+                int countChecked = getListView().getCheckedItemCount();
+
+                fab.show();
+
+                if (countChecked == 0) {
+                    fab.hide();
+                }
+
+                col_selected = 0;
+
+                fab.setOnClickListener(view1 -> {
+
+                    for (int i = 0; i < countAllListItems; i++) {
+                        if (sparseBooleanArray.get(i)) {
+                            if (!(((SMSData) parent.getItemAtPosition(i)).getCoord() == null)) {
+                                intention.putExtra("sms_checked_item_coord" + col_selected, ((SMSData) parent.getItemAtPosition(i)).getCoord());
+                                col_selected++;
+                            }
+                        }
+                    }
+                    startActivity(intention);
+                });
+
+
+                checkBox = view.findViewById(R.id.checkbox);
+                if (!checkBox.isChecked()) {
+                    checkBox.setChecked(true);
+                } else {
+                    checkBox.setChecked(false);
+                }
+            }
+        });
         return rootView;
 
     }

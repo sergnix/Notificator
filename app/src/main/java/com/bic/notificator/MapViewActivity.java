@@ -11,10 +11,6 @@ import com.yandex.mapkit.map.CameraPosition;
 import com.yandex.mapkit.mapview.MapView;
 import com.yandex.runtime.image.ImageProvider;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -28,7 +24,7 @@ public class MapViewActivity extends Activity {
      */
     private final String MAPKIT_API_KEY = "5dd517ed-ca71-4d05-b644-58b979f0d724";
 
-    MapView mapView;
+    public MapView mapView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +53,20 @@ public class MapViewActivity extends Activity {
             Point point = new Point(map.getLon(), map.getLatt());
             mapView.getMap().getMapObjects().addPlacemark(point, ImageProvider.fromResource(getApplicationContext(), R.drawable.signal));
 
+            if (!(i == Objects.requireNonNull(raw).size())) {
+                mapView.getMap().move(
+                        new CameraPosition(point, 12.0f, 0.0f, 0.0f),
+                        new Animation(Animation.Type.SMOOTH, 0), null);
+            }
         }
-        // And to show what can be done with it, we move the camera to the center of Saint Petersburg.
+//         And to show what can be done with it, we move the camera to the center of Saint Petersburg.
 //        mapView.getMap().move(
 //                new CameraPosition(point, 14.0f, 0.0f, 0.0f),
 //                new Animation(Animation.Type.SMOOTH, 0), null);
 
 
     }
+
     @Override
     protected void onStop() {
         // Activity onStop call must be passed to both MapView and MapKit instance.

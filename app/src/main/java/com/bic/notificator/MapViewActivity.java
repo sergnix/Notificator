@@ -2,12 +2,18 @@ package com.bic.notificator;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.drawable.RotateDrawable;
 import android.os.Bundle;
 
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.map.CameraPosition;
+import com.yandex.mapkit.map.IconStyle;
+import com.yandex.mapkit.map.RotationType;
 import com.yandex.mapkit.mapview.MapView;
 import com.yandex.runtime.image.ImageProvider;
 
@@ -51,7 +57,13 @@ public class MapViewActivity extends Activity {
         for (int i = 0; i < Objects.requireNonNull(raw).size(); i++) {
             Map map = new Map(Objects.requireNonNull(raw.getString("sms_checked_item_coord" + i)));
             Point point = new Point(map.getLon(), map.getLatt());
-            mapView.getMap().getMapObjects().addPlacemark(point, ImageProvider.fromResource(getApplicationContext(), R.drawable.signal));
+
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.signal);
+            Matrix mat = new Matrix();
+                mat.postRotate(map.getAzimuth());
+                Bitmap bmpRotate = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), mat, true);
+
+            mapView.getMap().getMapObjects().addPlacemark(point, ImageProvider.fromBitmap(bmpRotate));
 
             if (!(i == Objects.requireNonNull(raw).size())) {
                 mapView.getMap().move(

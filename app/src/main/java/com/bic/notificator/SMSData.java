@@ -108,4 +108,16 @@ public class SMSData {
         isCoord = false;
         return null;
     }
+
+    public String getAzimuth() {
+        String patternCoord = "^\\d{1,3}$";
+        Pattern pattern =  Pattern.compile(patternCoord);
+        for (String item:data) {
+            Matcher matcher = pattern.matcher(item);
+            if (matcher.find()) {
+                return matcher.group(0);
+            }
+        }
+        return null;
+    }
 }

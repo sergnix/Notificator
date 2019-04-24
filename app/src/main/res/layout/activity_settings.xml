@@ -1,27 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Settings"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".Settings">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Введите номера которые должны подвергаться разбору смс. Можно вводить несколько значений через запятую. Вводить в формате +7123..."/>
+        android:text="Введите номера которые должны подвергаться разбору смс. Можно вводить несколько значений через запятую. Вводить в формате +7123..." />
 
     <EditText
         android:id="@+id/numberForParseSMS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="phone"/>
+        android:inputType="phone" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp">
+
+    <RadioButton
+        android:id="@+id/radioButtonCurrentDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Отображать СМС за текущую дату" />
+
+    <RadioButton
+        android:id="@+id/radioButtonAllSMS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Отображать все СМС" />
+
+    <!--<RadioButton-->
+    <!--android:id="@+id/radioButtonSelectDate"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Отображать на определенную дату" />-->
+    <!--</RadioGroup>-->
+
+    <!--<CalendarView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:visibility="gone">-->
+    <!--</CalendarView>-->
+
+    </RadioGroup>
 
     <Button
         android:id="@+id/save_setting_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Сохранить"/>
+        android:text="Сохранить" />
 
 </LinearLayout>

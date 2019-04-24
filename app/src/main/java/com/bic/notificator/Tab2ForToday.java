@@ -4,8 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
@@ -26,6 +28,7 @@ import java.util.Objects;
 public class Tab2ForToday extends ListFragment {
 
     public ArrayList<SMSData> listsms;
+    public static SharedPreferences sPref;
     ListView messageList;
     ArrayAdapter<SMSData> adapter;
     BroadcastReceiver br;
@@ -59,10 +62,18 @@ public class Tab2ForToday extends ListFragment {
 
         messageList = (ListView) rootView.findViewById(android.R.id.list);
         messageList.setBackgroundColor(Color.WHITE);
+        sPref = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         Utils util = new Utils();
 
-        listsms = util.getAllSms(rootView.getContext());
+        if (sPref.getBoolean("showCurrentDate", true)) {
+            listsms = util.getSmsCurrentDate(rootView.getContext());
+        }
+
+        if (sPref.getBoolean("showAllSMS", false)) {
+            listsms = util.getAllSms(rootView.getContext());
+        }
+
         adapter = new SMSListAdapter(this.getContext(), R.layout.sms_list_item, listsms);
         Collections.sort(listsms, new BodyComparator());
         messageList.setAdapter(adapter);

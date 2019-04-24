@@ -52,6 +52,29 @@ class Utils {
             totalSMS = c.getCount();
             if (c.moveToFirst()) {
                 for (int j = 0; j < totalSMS; j++) {
+                    if (Settings.checkNumber(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS)), context)) {
+                        smsList.add(new SMSData(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.BODY)), c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS)), c.getString(c.getColumnIndexOrThrow(Telephony.Sms.DATE))));
+                    }
+                    c.moveToNext();
+                }
+                c.close();
+            }
+        } else {
+            Toast.makeText(context, "No message to show!", Toast.LENGTH_SHORT).show();
+        }
+        return smsList;
+    }
+
+    ArrayList<SMSData> getSmsCurrentDate(Context context) {
+        ArrayList<SMSData> smsList;
+        smsList = new ArrayList<SMSData>();
+        ContentResolver cr = context.getContentResolver();
+        int totalSMS = 0;
+        Cursor c = cr.query(Telephony.Sms.CONTENT_URI, null, null, null, null);
+        if (c != null) {
+            totalSMS = c.getCount();
+            if (c.moveToFirst()) {
+                for (int j = 0; j < totalSMS; j++) {
                     if (Settings.checkNumber(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS)), context) && isDateBetween(Long.parseLong(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.DATE))))) {
                         smsList.add(new SMSData(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.BODY)), c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS)), c.getString(c.getColumnIndexOrThrow(Telephony.Sms.DATE))));
                     }

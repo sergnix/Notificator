@@ -7,9 +7,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
@@ -29,6 +31,7 @@ public class Tab1Last extends ListFragment {
 
     public static final String BROADCAST_ACTION = "tabs_renew";
     public ArrayList<SMSData> listsms;
+    public static SharedPreferences sPref;
     public int col_selected;
     ListView messageList;
     ArrayAdapter<SMSData> adapter;
@@ -68,9 +71,18 @@ public class Tab1Last extends ListFragment {
         messageList = (ListView) rootView.findViewById(android.R.id.list);
         messageList.setBackgroundColor(Color.WHITE);
 
+        sPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+
         Utils util = new Utils();
 
-        listsms = util.getAllSms(rootView.getContext());
+        if (sPref.getBoolean("showCurrentDate", true)) {
+            listsms = util.getSmsCurrentDate(rootView.getContext());
+        }
+
+        if (sPref.getBoolean("showAllSMS", false)) {
+            listsms = util.getAllSms(rootView.getContext());
+        }
+
         adapter = new SMSListAdapter(this.getContext(), R.layout.sms_list_item, listsms);
         messageList.setAdapter(adapter);
 

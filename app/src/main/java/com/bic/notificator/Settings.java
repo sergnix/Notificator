@@ -54,15 +54,11 @@ public class Settings extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.radioButtonCurrentDate:
-                        Toast.makeText(getApplicationContext(), "Выбрано показать текущие смс",
-                                Toast.LENGTH_SHORT).show();
                         shEditor.putBoolean("showCurrentDate", showCurrentDate.isChecked());
                         shEditor.putBoolean("showAllSMS", showAllSMS.isChecked());
                         shEditor.apply();
                         break;
                     case R.id.radioButtonAllSMS:
-                        Toast.makeText(getApplicationContext(), "Выбрано показать все смс",
-                                Toast.LENGTH_SHORT).show();
                         shEditor.putBoolean("showCurrentDate", showCurrentDate.isChecked());
                         shEditor.putBoolean("showAllSMS", showAllSMS.isChecked());
                         shEditor.apply();
